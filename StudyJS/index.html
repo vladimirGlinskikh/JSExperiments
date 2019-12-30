@@ -52,22 +52,36 @@
     }
 
     #thumbnail {
-        box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
     }
 
-    strong:hover{
+    strong:hover {
         color: blue;
     }
-</style>
 
-<h2 id="orange-text"class="blue-text">CatPhotoApp</h2>
+    div {
+        border-radius: 20px;
+        width: 70%;
+        height: 400px;
+        margin: 50px auto;
+        background: repeating-linear-gradient(
+                45deg,
+                yellow 0px,
+                yellow 40px,
+                black 40px,
+                black 80px
+        );
+    }
+</style>
+<div></div>
+<h2 id="orange-text" class="blue-text">CatPhotoApp</h2>
 <main>
     <p>Click here to view more <a href="#">cat photos</a>.</p>
 
     <a href="#"><img src="https://bit.ly/fcc-relaxing-cat" alt="A cute orange cat lying on its back."
                      class="thin-red-border"></a>
 
-    <div id="thumbnail"  class="silver-background">
+    <div id="thumbnail" class="silver-background">
         <p class="font-size">Things cats love:</p>
         <ul>
             <li>cat nip</li>

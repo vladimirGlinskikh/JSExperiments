@@ -40,6 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const openCart = () => {
+        event.preventDefault();
         cart.style.display = 'flex';
     };
     cardBtn.addEventListener('click', openCart);

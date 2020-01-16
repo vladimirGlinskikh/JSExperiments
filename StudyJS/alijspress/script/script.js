@@ -5,10 +5,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const wishlistBtn = document.getElementById('wishlist');
     const goodsWrapper = document.querySelector('.goods-wrapper');
     const cart = document.querySelector('.cart');
+    const category = document.querySelector('.category');
 
-    fetch('db/db.json')
-        .then(response => response.json())
-        .then(data => console.log(data));
 
     const createCardGoods = (id, title, price, img) => {
         const card = document.createElement('div');
@@ -24,17 +22,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="card-price">${price} ₽</div>
                     <div>
                     <button class="card-add-cart"
-                        data-goods-id="id">Добавить в корзину</button>
+                        data-goods-id="${id}">Добавить в корзину</button>
                     </div>
                      </div>
                     </div>`;
         return card;
     };
-    goodsWrapper.appendChild(createCardGoods(1, 'Darts', 2000, 'img/temp/Archer.jpg'));
-    goodsWrapper.appendChild(createCardGoods(2, 'Flamingo', 3000, 'img/temp/Flamingo.jpg'));
-    goodsWrapper.appendChild(createCardGoods(3, 'Socks', 400, 'img/temp/Socks.jpg'));
 
-    const closeCart = (event) => {
+    const closeCart = event => {
         const target = event.target;
 
         if (target === cart ||
@@ -48,10 +43,39 @@ document.addEventListener('DOMContentLoaded', () => {
     const openCart = event => {
         event.preventDefault();
         cart.style.display = 'flex';
-        document.removeEventListener('keyup', closeCart);
+        document.addEventListener('keyup', closeCart);
+    };
+
+    const renderCard = (goods) => {
+        goodsWrapper.textContent = '';
+        goods.forEach(({id, title, price, imgMin}) => {
+            goodsWrapper.append(createCardGoods(id, title, price, imgMin));
+        })
+    };
+
+    const getGoods = (handler, filter) => {
+        fetch('db/db.json')
+            .then(response => response.json())
+            .then(filter)
+            .then(handler);
+    };
+
+    const randomSort = (item) => item.sort(() => Math.random() - 0.5);
+
+    const choiceCategory = event => {
+        event.preventDefault();
+        const target = event.target;
+
+        if (target.classList.contains('category-item')) {
+            const category = target.dataset.category;
+            getGoods(renderCard, goods => goods.filter(item => item.category.includes(category)));
+        }
     };
 
     cardBtn.addEventListener('click', openCart);
     cart.addEventListener('click', closeCart);
+    category.addEventListener('click', choiceCategory)
 
-})
+    getGoods(renderCard, randomSort);
+
+});

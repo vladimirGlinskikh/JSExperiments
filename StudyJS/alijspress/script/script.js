@@ -3,9 +3,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const search = document.querySelector('.search');
     const cardBtn = document.getElementById('cart');
     const wishlistBtn = document.getElementById('wishlist');
+    const goodsWrapper = document.querySelector('.goods-wrapper');
     const cart = document.querySelector('.cart');
 
-    const goodsWrapper = document.querySelector('.goods-wrapper');
+    fetch('db/db.json')
+        .then(response => response.json())
+        .then(data => console.log(data));
 
     const createCardGoods = (id, title, price, img) => {
         const card = document.createElement('div');
@@ -33,16 +36,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const closeCart = (event) => {
         const target = event.target;
-        console.log(target)
-        if (target === cart || target.classList.contains('cart-close')) {
+
+        if (target === cart ||
+            target.classList.contains('cart-close') ||
+            event.keyCode === 27) {
             cart.style.display = '';
+            document.removeEventListener('keyup', closeCart);
         }
     };
 
-    const openCart = () => {
+    const openCart = event => {
         event.preventDefault();
         cart.style.display = 'flex';
+        document.removeEventListener('keyup', closeCart);
     };
+
     cardBtn.addEventListener('click', openCart);
     cart.addEventListener('click', closeCart);
 

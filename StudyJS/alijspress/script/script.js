@@ -103,10 +103,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
+    const showCardBasket = goods => goods.filter(item => goodsBasket.hasOwnProperty(item.id));
+
     const openCart = event => {
         event.preventDefault();
         cart.style.display = 'flex';
         document.addEventListener('keyup', closeCart);
+        getGoods(renderBasket, showCardBasket);
     };
 
     const getGoods = (handler, filter) => {
@@ -177,11 +180,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 const wishlistStorage = JSON.parse(localStorage.getItem('wishlist'));
                 wishlistStorage.forEach(id => wishlist.push(id));
             }
-
+            checkCount();
         } else {
             localStorage.setItem('wishlist', JSON.stringify(wishlist));
         }
-        checkCount();
     };
 
     const toggleWhishlist = (id, elem) => {

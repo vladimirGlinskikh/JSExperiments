@@ -7,6 +7,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const cart = document.querySelector('.cart');
     const category = document.querySelector('.category');
 
+    const loading = () => {
+        goodsWrapper.innerHTML = `<div id="spinner"><div class="spinner-loading"><div>
+                                  <div><div></div>
+                                  </div><div><div>
+                                  </div></div><div>
+                                  <div></div></div>
+                                  <div><div></div></div></div></div></div>`;
+    };
+
 
     const createCardGoods = (id, title, price, img) => {
         const card = document.createElement('div');
@@ -54,6 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const getGoods = (handler, filter) => {
+        loading();
         fetch('db/db.json')
             .then(response => response.json())
             .then(filter)
@@ -68,13 +78,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (target.classList.contains('category-item')) {
             const category = target.dataset.category;
-            getGoods(renderCard, goods => goods.filter(item => item.category.includes(category)));
+            getGoods(renderCard, goods => goods
+                .filter(item => item.category
+                    .includes(category)));
         }
     };
 
     cardBtn.addEventListener('click', openCart);
     cart.addEventListener('click', closeCart);
-    category.addEventListener('click', choiceCategory)
+    category.addEventListener('click', choiceCategory);
 
     getGoods(renderCard, randomSort);
 

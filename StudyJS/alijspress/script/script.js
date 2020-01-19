@@ -11,15 +11,22 @@ document.addEventListener('DOMContentLoaded', () => {
     const cartWrapper = document.querySelector('.cart-wrapper');
 
     const wishlist = [];
-    let goodsBasket = {};
+    const goodsBasket = {};
 
-    const loading = () => {
-        goodsWrapper.innerHTML = `<div id="spinner"><div class="spinner-loading"><div>
+    const loading = (nameFunction) => {
+        const spinner = `<div id="spinner"><div class="spinner-loading"><div>
                                   <div><div></div>
                                   </div><div><div>
                                   </div></div><div>
                                   <div></div></div>
                                   <div><div></div></div></div></div></div>`;
+
+        if (nameFunction === 'renderCard') {
+            goodsWrapper.innerHTML = spinner;
+        }
+        if (nameFunction == 'renderBasket') {
+            cartWrapper.innerHTML = spinner;
+        }
     };
 
 
@@ -61,22 +68,22 @@ document.addEventListener('DOMContentLoaded', () => {
         const card = document.createElement('div');
         card.className = 'goods';
         card.innerHTML = `<div class="goods-img-wrapper">
-\t\t\t\t\t\t<img class="goods-img" src="${img}" alt="">
+            <img class="goods-img" src="${img}" alt="">
 
-\t\t\t\t\t</div>
-\t\t\t\t\t<div class="goods-description">
-\t\t\t\t\t\t<h2 class="goods-title">${title}</h2>
-\t\t\t\t\t\t<p class="goods-price">${price}</p>
+          </div>
+          <div class="goods-description">
+            <h2 class="goods-title">${title}</h2>
+            <p class="goods-price">${price}</p>
 
-\t\t\t\t\t</div>
-\t\t\t\t\t<div class="goods-price-count">
-\t\t\t\t\t\t<div class="goods-trigger">
-\t\t\t\t\t\t\t<button class="goods-add-wishlist ${wishlist.includes(id) ? 'active' : ''}"
- data-goods-id="${id}"></button>
-\t\t\t\t\t\t\t<button class="goods-delete" data-goods-id="${id}"></button>
-\t\t\t\t\t\t</div>
-\t\t\t\t\t\t<div class="goods-count">1</div>
-\t\t\t\t\t</div>`;
+          </div>
+          <div class="goods-price-count">
+            <div class="goods-trigger">
+              <button class="goods-add-wishlist ${wishlist.includes(id) ? 'active' : ''}"
+                             data-goods-id="${id}"></button>
+              <button class="goods-delete" data-goods-id="${id}"></button>
+            </div>
+            <div class="goods-count">${goodsBasket[id]}</div>
+          </div>`;
         return card;
     };
 
@@ -103,7 +110,19 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    const showCardBasket = goods => goods.filter(item => goodsBasket.hasOwnProperty(item.id));
+    const calcTotalPrice = goods => {
+        let sum = 0;
+        for (const item of goods) {
+            sum += item.price * goodsBasket[item.id];
+        }
+        cart.querySelector('.cart-total>span').textContent = sum.toFixed(2);
+    };
+
+    const showCardBasket = goods => {
+        const basketGoods = goods.filter(item => goodsBasket.hasOwnProperty(item.id));
+        calcTotalPrice(basketGoods);
+        return basketGoods;
+    };
 
     const openCart = event => {
         event.preventDefault();
@@ -113,7 +132,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const getGoods = (handler, filter) => {
-        loading();
+        loading(handler.name);
         fetch('db/db.json')
             .then(response => response.json())
             .then(filter)
@@ -158,10 +177,13 @@ document.addEventListener('DOMContentLoaded', () => {
         return matches ? decodeURIComponent(matches[1]) : undefined;
     };
 
-    const cookieQuery  = get => {
-        if (get){
-            goodsBasket = JSON.parse(getCookie('goodsBasket'));
-        }else {
+    const cookieQuery = get => {
+        if (get) {
+            if (getCookie('goodsBasket')) {
+                Object.assign(goodsBasket, JSON.parse(getCookie('goodsBasket')));
+            }
+            checkCount();
+        } else {
             document.cookie = `goodsBasket=${JSON.stringify(goodsBasket)}; max-age=86400e3`;
         }
         console.log(goodsBasket);
@@ -177,8 +199,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const storageQuery = get => {
         if (get) {
             if (localStorage.getItem('wishlist')) {
-                const wishlistStorage = JSON.parse(localStorage.getItem('wishlist'));
-                wishlistStorage.forEach(id => wishlist.push(id));
+                wishlist.push(...JSON.parse(localStorage.getItem('wishlist')));
             }
             checkCount();
         } else {
@@ -198,10 +219,10 @@ document.addEventListener('DOMContentLoaded', () => {
         storageQuery();
     };
 
-    const addBasket = id =>{
-        if (goodsBasket[id]){
+    const addBasket = id => {
+        if (goodsBasket[id]) {
             goodsBasket[id] += 1
-        }else {
+        } else {
             goodsBasket[id] = 1
         }
         checkCount();
@@ -215,10 +236,30 @@ document.addEventListener('DOMContentLoaded', () => {
             toggleWhishlist(target.dataset.goodsId, target);
         }
 
-        if (target.classList.contains('card-add-cart')){
+        if (target.classList.contains('card-add-cart')) {
             addBasket(target.dataset.goodsId);
 
         }
+    };
+
+    const removeGoods = id => {
+        delete goodsBasket[id];
+        checkCount();
+        cookieQuery();
+        getGoods(renderBasket, showCardBasket);
+    };
+
+    const handlerBasket = event => {
+        const target = event.target;
+        if (target.classList.contains('goods-add-wishlist')) {
+            toggleWhishlist(target.dataset.goodsId, target);
+        }
+
+
+        if (target.classList.contains('goods-delete')) {
+            removeGoods(target.dataset.goodsId);
+        }
+
     };
 
     const showWishlist = () => {
@@ -230,6 +271,7 @@ document.addEventListener('DOMContentLoaded', () => {
     category.addEventListener('click', choiceCategory);
     search.addEventListener('submit', searchGoods);
     goodsWrapper.addEventListener('click', handlerGoods);
+    cartWrapper.addEventListener('click', handlerBasket);
     wishlistBtn.addEventListener('click', showWishlist);
 
     getGoods(renderCart, randomSort);

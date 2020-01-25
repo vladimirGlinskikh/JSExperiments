@@ -5,140 +5,51 @@
     <title>Experiments</title>
 </head>
 <body>
-<!--<link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet" type="text/css">-->
+
 <style>
-    body {
-        background-color: azure;
+    .item1 {
+        background: LightSkyBlue;
     }
+
+    .item2 {
+        background: LightSalmon;
+    }
+
+    .item3 {
+        background: PaleTurquoise;
+    }
+
+    .item4 {
+        background: LightPink;
+    }
+
+    .item5 {
+        background: PaleGreen;
+    }
+
     .container {
+        font-size: 40px;
+        min-height: 300px;
+        width: 100%;
+        background: LightGray;
         display: grid;
-        grid-template-columns: 50px 50px;
+        /* change the code below this line */
+
+        grid-template-columns: repeat(3, 1fr) minmax(90px, 1fr);
+
+        /* change the code above this line */
+        grid-template-rows: 1fr 1fr 1fr;
+        grid-gap: 10px;
     }
 
-    .blue-text {
-        color: blue;
-    }
-
-    .font-size {
-        font-size: 16px;
-        font-family: Lobster, monospace;
-    }
-
-    .large-image {
-        width: 500px;
-    }
-
-    .thin-red-border {
-        border-color: red;
-        border-width: 5px;
-        border-style: solid;
-        border-radius: 50%;
-    }
-
-    .silver-background {
-        background-color: silver;
-    }
-
-    [type='checkbox'] {
-        margin: 10px 0px 15px 0px;
-    }
-
-    #orange-text {
-        color: orange !important;
-    }
-
-    .background-color {
-        background-color: rgba(45, 45, 45, 0.1);
-    }
-
-    strong {
-        font-weight: bold;
-    }
-
-    #thumbnail {
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
-    }
-
-    strong:hover {
-        color: blue;
-    }
-
-    /*div {*/
-    /*    border-radius: 20px;*/
-    /*    width: 70%;*/
-    /*    height: 400px;*/
-    /*    margin: 50px auto;*/
-    /*    background: repeating-linear-gradient(*/
-    /*            45deg,*/
-    /*            yellow 0px,*/
-    /*            yellow 40px,*/
-    /*            black 40px,*/
-    /*            black 80px*/
-    /*    );*/
-    /*}*/
-    body{
-        background: url("https://cdn-media-1.freecodecamp.org/imgr/MJAkxbh.png");
-    }
-
-    p:hover{
-        transform: scale(2.1);
-        transform: skewX(24deg);
-    }
 </style>
-<div></div>
-<h2 id="orange-text" class="blue-text">CatPhotoApp</h2>
-<main>
-    <p>Click here to view more <a href="#">cat photos</a>.</p>
-
-    <a href="#"><img src="https://bit.ly/fcc-relaxing-cat" alt="A cute orange cat lying on its back."
-                     class="thin-red-border"></a>
-
-    <div id="thumbnail" class="silver-background">
-        <p class="font-size">Things cats love:</p>
-        <ul>
-            <li>cat nip</li>
-            <li>laser pointers</li>
-            <li>lasagna</li>
-        </ul>
-        <hr>
-        <p>Google was founded by Larry Page and Sergey Brin while they were Ph.D. students at
-            <strong>Stanford University</strong>.</p>
-        <hr>
-    </div>
-    <div class="silver-background">
-        <p class="font-size">Top 3 things cats hate:</p>
-        <ol>
-            <li>flea treatment</li>
-            <li>thunder</li>
-            <li>other cats</li>
-        </ol>
-    </div>
-    <form action="/submit-cat-photo">
-        <label for="indoor"><input id="indoor" value="indoor" type="radio" name="indoor-outdoor" checked> Indoor</label>
-        <br>
-        <label for="outdoor"><input id="outdoor" value="outdoor" type="radio" name="indoor-outdoor"> Outdoor</label><br>
-        <br>
-        <input type="text" placeholder="cat photo URL" required>
-        <button type="submit">Submit</button>
-
-        <br>
-        <label for="loving"><input id="loving" value="loving" type="checkbox" name="personality" checked> Loving</label>
-        <br>
-        <label for="feeling"><input id="feeling" value="feeling" type="checkbox" name="personality"> Feeling</label>
-        <br>
-        <label for="hopes"><input id="hopes" value="hopes" type="checkbox" name="personality"> Hopes</label>
-    </form>
-    <form>
-        <fieldset>
-            <legend>Choose one of these three items:</legend>
-            <input id="one" type="radio" name="items" value="one">
-            <label for="one">Choice One</label><br>
-            <input id="two" type="radio" name="items" value="two">
-            <label for="two">Choice Two</label><br>
-            <input id="three" type="radio" name="items" value="three">
-            <label for="three">Choice Three</label>
-        </fieldset>
-    </form>
+<div class="container">
+    <div class="item1">1</div>
+    <div class="item2">2</div>
+    <div class="item3">3</div>
+    <div class="item4">4</div>
+    <div class="item5">5</div>
+</div>
 </main>
 </body>
 <script src="script.js"></script>

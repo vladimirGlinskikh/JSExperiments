@@ -1,1 +1,1 @@
-In the second grid, use auto-fit with repeat to fill the grid with columns that have a minimum width of 60px and maximum of 1fr. Then resize the preview to see the difference.
+When the viewport is 400px or more, container class should have a grid-template-areas property in which the header and footer areas occupy the top and bottom rows respectively and advert and content occupy the left and right columns of the middle row.

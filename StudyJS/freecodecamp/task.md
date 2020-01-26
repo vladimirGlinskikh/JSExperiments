@@ -1,1 +1,1 @@
-When the viewport is 400px or more, container class should have a grid-template-areas property in which the header and footer areas occupy the top and bottom rows respectively and advert and content occupy the left and right columns of the middle row.
+Turn the element with the item3 class into a grid with two columns with a width of auto and 1fr using display and grid-template-columns.

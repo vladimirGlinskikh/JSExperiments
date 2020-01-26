@@ -1,3 +1,15 @@
+.container {
+    font-size: 1.5em;
+    min-height: 300px;
+    width: 100%;
+    background: LightGray;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto 1fr auto;
+    grid-gap: 10px;
+    grid-template-areas: "advert header" "advert content" "advert footer";
+}
+
 .item1 {
     background: LightSkyBlue;
     grid-area: header;
@@ -11,6 +23,11 @@
 .item3 {
     background: PaleTurquoise;
     grid-area: content;
+    /* enter your code below this line */
+    display: grid;
+    grid-template-columns: auto 1fr;
+
+    /* enter your code above this line */
 }
 
 .item4 {
@@ -18,43 +35,10 @@
     grid-area: footer;
 }
 
-.container {
-    font-size: 1.5em;
-    min-height: 300px;
-    width: 100%;
-    background: LightGray;
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: 50px auto 1fr auto;
-    grid-gap: 10px;
-    grid-template-areas:
-            "header"
-            "advert"
-            "content"
-            "footer";
+.itemOne {
+    background: PaleGreen;
 }
 
-@media (min-width: 300px){
-    .container{
-        grid-template-columns: auto 1fr;
-        grid-template-rows: auto 1fr auto;
-        grid-template-areas:
-                "header header"
-                "advert content"
-                "footer footer";
-    }
-}
-
-@media (min-width: 400px){
-    .container{
-        /* change the code below this line */
-
-        grid-template-areas:
-                "advert header"
-                "advert content"
-                "advert sidebar"
-                "advert footer";
-
-        /* change the code above this line */
-    }
+.itemTwo {
+    background: BlanchedAlmond;
 }

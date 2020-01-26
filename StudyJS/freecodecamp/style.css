@@ -1,44 +1,23 @@
-.container {
-    font-size: 1.5em;
-    min-height: 300px;
-    width: 100%;
-    background: LightGray;
-    display: grid;
-    grid-template-columns: auto 1fr;
-    grid-template-rows: auto 1fr auto;
-    grid-gap: 10px;
-    grid-template-areas: "advert header" "advert content" "advert footer";
+body {
+    background: lightgrey;
 }
-
-.item1 {
-    background: LightSkyBlue;
-    grid-area: header;
+img {
+    max-width: 100%;
+    display: block;
+    height: auto;
+    margin-left: auto;
+    margin-right: auto;
 }
-
-.item2 {
-    background: LightSalmon;
-    grid-area: advert;
+#title {
+    text-align: center;
+    text-transform: uppercase;
 }
+#img-caption {
+    font-style:italic;
+    margin-top: 0;
+    text-align: center;
 
-.item3 {
-    background: PaleTurquoise;
-    grid-area: content;
-    /* enter your code below this line */
-    display: grid;
-    grid-template-columns: auto 1fr;
-
-    /* enter your code above this line */
 }
-
-.item4 {
-    background: lightpink;
-    grid-area: footer;
-}
-
-.itemOne {
-    background: PaleGreen;
-}
-
-.itemTwo {
-    background: BlanchedAlmond;
+#tribute-info {
+    background: grey;
 }

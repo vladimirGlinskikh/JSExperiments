@@ -10,7 +10,7 @@
     <h1 id="title">Form of Survey</h1>
     <p id="description"> This is a short explanation about web development </p>
 
-    <form id="survey-form">
+    <form action="submit" id="survey-form">
         <label for="name" id="name-label">Enter your name: </label>
         <input type="text" name="nameField" id="name" placeholder="Enter your name here">
         <br>
@@ -26,7 +26,39 @@
         <input type="number" name="numberField" id="number" min="1" max="10" placeholder="10" required>
         <br>
         <br>
-
+        <label for="dropDown">What is your programming experience?</label>
+        <select name="dropdown" id="dropDown">
+            <option value="1">Less than one year</option>
+            <option value="1">One to two years</option>
+            <option value="1">Three to five years old</option>
+            <option value="1">From five years or more</option>
+        </select>
+        <div class="radioButtons">
+            <p>What programming languages ​​do you have skill?</p>
+            <input type="checkbox" name="programmingLang" id="Java" value="Java">
+            <label for="Java">Java</label>
+            <br>
+            <input type="checkbox" name="programmingLang" id="SQL" value="SQL">
+            <label for="SQL">SQL</label>
+            <br>
+            <input type="checkbox" name="programmingLang" id="JavaScript" value="JavaScript">
+            <label for="JavaScript">JavaScript</label>
+            <br>
+            <input type="checkbox" name="programmingLang" id="C++" value="C++">
+            <label for="C++">C++</label>
+            <br>
+            <input type="checkbox" name="programmingLang" id="C#" value="C#">
+            <label for="C#">C#</label>
+            <br>
+            <input type="checkbox" name="programmingLang" id="Python" value="Python">
+            <label for="Python">Python</label>
+            <br>
+            <input type="checkbox" name="programmingLang" id="PHP" value="PHP">
+            <label for="PHP">PHP</label>
+        </div>
+        <textarea name="message" id="message" cols="50" rows="5"
+                  placeholder="Share your comment please here"></textarea>
+        <button type="submit" id="submit">Submit</button>
     </form>
 </main>
 </body>

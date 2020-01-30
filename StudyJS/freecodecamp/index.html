@@ -12,7 +12,7 @@
 
     <form action="submit" id="survey-form">
         <label for="name" id="name-label">Enter your name: </label>
-        <input type="text" name="nameField" id="name" placeholder="Enter your name here">
+        <input type="text" name="nameField" id="name" placeholder="Enter your name here" required>
         <br>
         <br>
         <label for="email" id="email-label">Enter your email: </label>
@@ -26,37 +26,54 @@
         <input type="number" name="numberField" id="number" min="1" max="10" placeholder="10" required>
         <br>
         <br>
-        <label for="dropDown">What is your programming experience?</label>
-        <select name="dropdown" id="dropDown">
+        <label for="dropdown">What is your programming experience?</label>
+        <select name="dropdown" id="dropdown">
             <option value="1">Less than one year</option>
-            <option value="1">One to two years</option>
-            <option value="1">Three to five years old</option>
-            <option value="1">From five years or more</option>
+            <option value="2">One to two years</option>
+            <option value="3">Three to five years old</option>
+            <option value="4">From five years or more</option>
         </select>
         <div class="radioButtons">
             <p>What programming languages ​​do you have skill?</p>
-            <input type="checkbox" name="programmingLang" id="Java" value="Java">
+            <input type="radio" name="programmingLang" id="Java" value="Java">
             <label for="Java">Java</label>
             <br>
-            <input type="checkbox" name="programmingLang" id="SQL" value="SQL">
+            <input type="radio" name="programmingLang" id="SQL" value="SQL">
             <label for="SQL">SQL</label>
             <br>
-            <input type="checkbox" name="programmingLang" id="JavaScript" value="JavaScript">
+            <input type="radio" name="programmingLang" id="JavaScript" value="JavaScript">
             <label for="JavaScript">JavaScript</label>
             <br>
-            <input type="checkbox" name="programmingLang" id="C++" value="C++">
+            <input type="radio" name="programmingLang" id="C++" value="C++">
             <label for="C++">C++</label>
             <br>
-            <input type="checkbox" name="programmingLang" id="C#" value="C#">
+            <input type="radio" name="programmingLang" id="C#" value="C#">
             <label for="C#">C#</label>
             <br>
-            <input type="checkbox" name="programmingLang" id="Python" value="Python">
+            <input type="radio" name="programmingLang" id="Python" value="Python">
             <label for="Python">Python</label>
             <br>
-            <input type="checkbox" name="programmingLang" id="PHP" value="PHP">
+            <input type="radio" name="programmingLang" id="PHP" value="PHP">
             <label for="PHP">PHP</label>
         </div>
         <br>
+        <br>
+        <div class="checkButtons">
+            <input type="checkbox" name="frameworks" id="Angular" value="Angular">
+            <label for="Angular">Angular</label>
+            <br>
+            <input type="checkbox" name="frameworks" id="Spring MVC" value="Spring">
+            <label for="Spring MVC">Spring MVC</label>
+            <br>
+            <input type="checkbox" name="frameworks" id="Hibernate" value="Hibernate">
+            <label for="Hibernate">Hibernate</label>
+            <br>
+            <input type="checkbox" name="frameworks" id="Grails" value="Grails">
+            <label for="Grails">Grails</label>
+            <br>
+            <input type="checkbox" name="frameworks" id="Jersey" value="Jersey">
+            <label for="Jersey">Jersey</label>
+        </div>
         <br>
         <textarea name="message" id="message" cols="50" rows="5"
                   placeholder="Share your comment please here"></textarea>

@@ -2,12 +2,24 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title></title>
+    <title>Survey Form</title>
     <link href="style.css" rel="stylesheet">
 </head>
 <body>
 <main>
+    <h1 id="title">Form of Survey</h1>
+    <p id="description"> This is a short explanation about web development </p>
 
+    <form id="survey-form">
+        <label for="name" id="name-label">Enter your name: </label>
+        <input type="text" name="nameField" id="name" placeholder="Enter your name here">
+        <br>
+        <br>
+        <label for="email" id="email-label">Enter your email: </label>
+        <input type="email" name="emailField" id="email" placeholder="Enter your email address here" required>
+        <br>
+        <br>
+    </form>
 </main>
 </body>
 <script src="script.js"></script>

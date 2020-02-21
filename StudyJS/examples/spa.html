@@ -4,14 +4,13 @@
     <meta charset="UTF-8">
     <title>Experiments</title>
     <script type="text/javascript">
-        var regular_joe = 'I am a global!';
-
         function prison() {
-            var prisoner = 'I am a local';
-            console.log(prisoner);
+            prisoner_one = 'I escaped';
+            var prisoner_two = 'i\'m locked in a cell';
         }
         prison();
-        console.log(regular_joe);
+        console.log(prisoner_one);
+        console.log(prisoner_two);
     </script>
 </head>
 <body>

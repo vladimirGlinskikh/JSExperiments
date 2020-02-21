@@ -4,15 +4,14 @@
     <meta charset="UTF-8">
     <title>Experiments</title>
     <script type="text/javascript">
-        var spa = {
-            title: "Single Page Web Applications", //атрибут
-            authors: [ "Mike Mikowski", "Josh Powell" ], //массив
-            buy_now: function () { //функция
-                console.log( "Book is purchased" );
-            }
-        };
-        console.log(spa.title, spa.authors);
-        console.log(spa.buy_now());
+        var regular_joe = 'I am a global!';
+
+        function prison() {
+            var prisoner = 'I am a local';
+            console.log(prisoner);
+        }
+        prison();
+        console.log(regular_joe);
     </script>
 </head>
 <body>

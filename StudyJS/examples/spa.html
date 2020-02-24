@@ -9,13 +9,15 @@
             probation: 2
         };
 
-        var firstPrisoner = Object.create(proto);
-        firstPrisoner.name = 'Joe';
-        firstPrisoner.id = '12A';
+        var makePrisoner = function (name, id) {
+            var prisoner = Object.create(proto);
+            prisoner.name = name;
+            prisoner.id = id;
+            return prisoner;
+        };
 
-        var secondPrisoner = Object.create(proto);
-        secondPrisoner.name = 'Sam';
-        secondPrisoner.id = '2BC';
+        var firstPrisoner = makePrisoner('Joe', '12A');
+        var secondPrisoner = makePrisoner('Sam', '2BC');
         console.log(firstPrisoner, secondPrisoner);
     </script>
 </head>

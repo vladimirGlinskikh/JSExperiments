@@ -8,15 +8,14 @@
             sentence: 4,
             probation: 2
         };
-        var Prisoner = function (name, id) {
-            this.name = name;
-            this.id = id;
-        };
 
-        Prisoner.prototype = proto;
+        var firstPrisoner = Object.create(proto);
+        firstPrisoner.name = 'Joe';
+        firstPrisoner.id = '12A';
 
-        var firstPrisoner = new Prisoner('Joe', '12A');
-        var secondPrisoner = new Prisoner('Sam', '2BC');
+        var secondPrisoner = Object.create(proto);
+        secondPrisoner.name = 'Sam';
+        secondPrisoner.id = '2BC';
         console.log(firstPrisoner, secondPrisoner);
     </script>
 </head>

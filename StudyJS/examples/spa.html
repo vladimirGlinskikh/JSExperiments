@@ -15,6 +15,16 @@
         console.log(prison.prisoner_name); //undefined
         console.log(prison.prisoner);
         console.log(prison.sentence);
+
+        var makePrison = function (prisoner) {
+            return function () {
+                return prisoner;
+            }
+        };
+        var joshPrison = makePrison("Josh Pawel");
+        var makePrison = makePrison("Mayk Mikivsky");
+        console.log(joshPrison);
+        console.log(makePrison);
     </script>
 </head>
 <body>

@@ -9,30 +9,22 @@
             crossorigin="anonymous"></script>
 
     <script type="text/javascript">
-        var curryLog, logHello, logStayinAlive, logGoodbye;
+        var menu, outer_function,
+            food = 'cake';
 
-        curryLog = function (arg_text) {
-            var log_it = function () {
-                console.log(arg_text);
+        outer_function = function () {
+            var fruit, inner_function;
+
+            fruit = 'apple';
+
+            inner_function = function () {
+                return {food: food, fruit: fruit};
             };
-            return log_it();
+
+            return inner_function;
         };
-
-        logHello = curryLog('hello');
-        logStayinAlive = curryLog('is alive, dude');
-        logGoodbye = curryLog('bye');
-        curryLog('fred');
-
-        logHello();
-        logStayinAlive();
-        logGoodbye();
-        logHello();
-
-        delete window.logHello;
-        delete window.logStayinAlive;
-
-        logGoodbye();
-        logStayinAlive();
+        menu = outer_function();
+        console.log(menu());
     </script>
 </head>
 <body>

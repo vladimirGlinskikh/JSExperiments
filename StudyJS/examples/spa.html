@@ -3,28 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <title>Experiments</title>
-    <script type="text/javascript">
-        var prison = (function () {
-            var prisoner_name = 'Make Mikovsky',
-                jail_term = 'value 20 year';
-            return {
-                prisoner: prisoner_name + ' - ' + jail_term,
-                sentence: jail_term
-            };
-        })();
-        console.log(prison.prisoner_name); //undefined
-        console.log(prison.prisoner);
-        console.log(prison.sentence);
+    <script
+            src="http://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+            crossorigin="anonymous"></script>
 
-        var makePrison = function (prisoner) {
-            return function () {
-                return prisoner;
+    <script type="text/javascript">
+        var prison = {
+            names: "Vladimir and Svetlana",
+            who: function () {
+                $.ajax({
+                    success: function () {
+                        console.log(this.names);
+                    }
+                });
             }
         };
-        var joshPrison = makePrison("Josh Pawel");
-        var makePrison = makePrison("Mayk Mikivsky");
-        console.log(joshPrison);
-        console.log(makePrison);
+        prison.who();
     </script>
 </head>
 <body>

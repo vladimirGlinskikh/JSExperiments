@@ -9,18 +9,30 @@
             crossorigin="anonymous"></script>
 
     <script type="text/javascript">
-        var prison = {
-            names: "Vladimir and Svetlana",
-            who: function () {
-                var that = this;
-                $.ajax({
-                    success: function () {
-                        console.log(that.names);
-                    }
-                });
-            }
+        var curryLog, logHello, logStayinAlive, logGoodbye;
+
+        curryLog = function (arg_text) {
+            var log_it = function () {
+                console.log(arg_text);
+            };
+            return log_it();
         };
-        prison.who();
+
+        logHello = curryLog('hello');
+        logStayinAlive = curryLog('is alive, dude');
+        logGoodbye = curryLog('bye');
+        curryLog('fred');
+
+        logHello();
+        logStayinAlive();
+        logGoodbye();
+        logHello();
+
+        delete window.logHello;
+        delete window.logStayinAlive;
+
+        logGoodbye();
+        logStayinAlive();
     </script>
 </head>
 <body>

@@ -12,9 +12,10 @@
         var prison = {
             names: "Vladimir and Svetlana",
             who: function () {
+                var that = this;
                 $.ajax({
                     success: function () {
-                        console.log(this.names);
+                        console.log(that.names);
                     }
                 });
             }

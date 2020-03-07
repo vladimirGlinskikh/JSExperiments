@@ -158,6 +158,7 @@ spa.shell = (function () {
         spa.chat.initModule(jqueryMap.$container);
 
         $(window)
+            .bind('resize', onResize)
             .bind('hashchange', onHashchange)
             .trigger('hashchange');
     };

@@ -20,7 +20,7 @@ spa.model = (function () {
             return this.cid === stateMap.user.cid;
         },
         get_is_anon: function () {
-            return this.cid === stateMap.anon_user_cid;
+            return this.cid === stateMap.anon_user.cid;
         }
     };
 
@@ -82,7 +82,7 @@ spa.model = (function () {
             return false;
         }
 
-        stateMap.people_db({cid: person.cid}).remote();
+        stateMap.people_db({cid: person.cid}).remove();
         if (person.cid) {
             delete stateMap.people_cid_map[person.cid];
         }
@@ -126,7 +126,7 @@ spa.model = (function () {
 
             is_removed = removePerson(user);
             stateMap.user = stateMap.anon_user;
-            $gevent.publish('spa-logout', [user]);
+            $.gevent.publish('spa-logout', [user]);
             return is_removed;
         };
 
@@ -138,15 +138,6 @@ spa.model = (function () {
             logout: logout
         };
     }());
-
-    /*people = {
-        get_db: function () {
-            return stateMap.people_db;
-        },
-        get_cid_map: function () {
-            return stateMap.people_cid_map;
-        }
-    };*/
 
     initModule = function () {
         var i, people_list, person_map;

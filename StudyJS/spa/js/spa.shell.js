@@ -1,12 +1,20 @@
 spa.shell = (function () {
+    'use strict';
     var
         configMap = {
             anchor_schema_map : {
                 chat: {opened : true, closed : true}
             },
 
+            resize_interval: 200,
+
             main_html: String()
                 + '<div class="spa-shell-head">'
+                + '<div class="spa-shell-head-logo">'
+                + '<h1>SPA</h1>'
+                + '<p>javascript end to end</p>'
+                + '</div>'
+                + '<div class="spa-shell-head-acct"></div>'
                 + '<div class="spa-shell-head-logo"></div>'
                 + '<div class="spa-shell-head-acct"></div>'
                 + '<div class="spa-shell-head-search"></div>'
@@ -17,8 +25,6 @@ spa.shell = (function () {
                 + '</div>'
                 + '<div class="spa-shell-foot"></div>'
                 + '<div class="spa-shell-modal"></div>',
-
-            resize_interval: 200,
         },
 
         stateMap = {

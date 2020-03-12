@@ -37,6 +37,7 @@ spa.shell = (function () {
 
         copyAnchorMap,setJqueryMap,
         changeAnchorPart, onHashchange, onResize,
+        onTapAcct, onLogin, onLogout,
         setChatAnchor, initModule;
 
     onResize = function(){
@@ -61,7 +62,9 @@ spa.shell = (function () {
         var $container = stateMap.$container;
 
         jqueryMap = {
-            $container: $container
+            $container: $container,
+            $acct: $container.find('.spa-shell-head-acct'),
+            $nav: $container.find('.spa-shell-main-nav')
         };
     };
 

@@ -2,8 +2,8 @@ spa.shell = (function () {
     'use strict';
     var
         configMap = {
-            anchor_schema_map : {
-                chat: {opened : true, closed : true}
+            anchor_schema_map: {
+                chat: {opened: true, closed: true}
             },
 
             resize_interval: 200,
@@ -29,19 +29,19 @@ spa.shell = (function () {
 
         stateMap = {
             $container: undefined,
-            anchor_map:{},
+            anchor_map: {},
             resize_idto: undefined
         },
 
         jqueryMap = {},
 
-        copyAnchorMap,setJqueryMap,
+        copyAnchorMap, setJqueryMap,
         changeAnchorPart, onHashchange, onResize,
         onTapAcct, onLogin, onLogout,
         setChatAnchor, initModule;
 
-    onResize = function(){
-        if (stateMap.resize_idto){
+    onResize = function () {
+        if (stateMap.resize_idto) {
             return true;
         }
         spa.chat.handleResize();
@@ -54,7 +54,7 @@ spa.shell = (function () {
         return true;
     };
 
-    copyAnchorMap = function(){
+    copyAnchorMap = function () {
         return $.extend(true, {}, stateMap.anchor_map);
     };
 
@@ -68,48 +68,65 @@ spa.shell = (function () {
         };
     };
 
-    changeAnchorPart = function(arg_map){
+    onTapAcct = function (event) {
+        var acct_text, user_name, user = spa.model.people.get_user();
+        if (user.get_is_anon()) {
+            user_name = prompt('Please sign-in');
+            spa.model.people.login(user_name);
+            jqueryMap.$acct.text('... processing ...');
+        } else {
+            spa.model.people.logout();
+        }
+        return false;
+    };
+
+    onLogin = function (event, login_user) {
+        jqueryMap.$acct.text(login_user.name);
+    };
+
+    onLogout = function (event, logout_user) {
+        jqueryMap.$acct.text('Please sign-in');
+    };
+
+    changeAnchorPart = function (arg_map) {
         var
             anchor_map_revise = copyAnchorMap(),
             bool_return = true,
             key_name, key_name_dep;
 
-        for (key_name in arg_map){
-            if (arg_map.hasOwnProperty(key_name)){
-                if (key_name.indexOf('_') === 0){
+        for (key_name in arg_map) {
+            if (arg_map.hasOwnProperty(key_name)) {
+                if (key_name.indexOf('_') === 0) {
                     continue;
                 }
                 anchor_map_revise[key_name] = arg_map[key_name];
                 key_name_dep = '_' + key_name;
-                if (arg_map[key_name_dep]){
+                if (arg_map[key_name_dep]) {
                     anchor_map_revise[key_name_dep] = arg_map[key_name_dep];
-                }
-                else {
+                } else {
                     delete anchor_map_revise[key_name_dep];
                     delete anchor_map_revise['_s' + key_name_dep];
                 }
             }
         }
-        try{
+        try {
             $.uriAnchor.setAnchor(anchor_map_revise);
-        }
-        catch (error) {
+        } catch (error) {
             $.uriAnchor.setAnchor(stateMap.anchor_map, null, true);
             bool_return = false;
         }
         return bool_return;
     };
 
-    onHashchange = function(event){
+    onHashchange = function (event) {
         var
             _s_chat_previous, _s_chat_proposed,
             s_chat_proposed, anchor_map_proposed, is_ok = true,
             anchor_map_previous = copyAnchorMap();
         try {
             anchor_map_proposed = $.uriAnchor.makeAnchorMap();
-        }
-        catch (error) {
-            $.uriAnchor.setAnchor(anchor_map_previous, null,true);
+        } catch (error) {
+            $.uriAnchor.setAnchor(anchor_map_previous, null, true);
             return false;
         }
         stateMap.anchor_map = anchor_map_proposed;
@@ -117,7 +134,7 @@ spa.shell = (function () {
         _s_chat_previous = anchor_map_previous._s_chat;
         _s_chat_proposed = anchor_map_proposed._s_chat;
 
-        if (!anchor_map_previous || _s_chat_previous !== _s_chat_proposed){
+        if (!anchor_map_previous || _s_chat_previous !== _s_chat_proposed) {
             s_chat_proposed = anchor_map_proposed.chat;
             switch (s_chat_proposed) {
                 case 'opened':
@@ -133,11 +150,11 @@ spa.shell = (function () {
             }
         }
 
-        if (!is_ok){
-            if (anchor_map_previous){
+        if (!is_ok) {
+            if (anchor_map_previous) {
                 $.uriAnchor.setAnchor(anchor_map_previous, null, true);
                 stateMap.anchor_map = anchor_map_previous;
-            }else {
+            } else {
                 delete anchor_map_proposed.chat;
                 $.uriAnchor.setAnchor(anchor_map_proposed, null, true);
             }
@@ -145,7 +162,7 @@ spa.shell = (function () {
         return false;
     };
 
-    setChatAnchor = function(position_type){
+    setChatAnchor = function (position_type) {
         return changeAnchorPart({chat: position_type});
     };
 
@@ -156,7 +173,7 @@ spa.shell = (function () {
 
 
         $.uriAnchor.configModule({
-            schema_map : configMap.anchor_schema_map
+            schema_map: configMap.anchor_schema_map
         });
 
         spa.chat.configModule({
@@ -171,5 +188,13 @@ spa.shell = (function () {
             .bind('hashchange', onHashchange)
             .trigger('hashchange');
     };
-    return {initModule : initModule};
+
+    $.gevent.subscribe($container, 'spa-login', onLogin);
+    $.gevent.subscribe($container, 'spa-logout', onLogout);
+
+    jqueryMap.$acct
+        .text('Please sign-in')
+        .bind('utap', onTapAcct);
+
+    return {initModule: initModule};
 }());

@@ -187,14 +187,14 @@ spa.shell = (function () {
             .bind('resize', onResize)
             .bind('hashchange', onHashchange)
             .trigger('hashchange');
+
+        $.gevent.subscribe($container, 'spa-login', onLogin);
+        $.gevent.subscribe($container, 'spa-logout', onLogout);
+
+        jqueryMap.$acct
+            .text('Please sign-in')
+            .bind('utap', onTapAcct);
     };
-
-    $.gevent.subscribe($container, 'spa-login', onLogin);
-    $.gevent.subscribe($container, 'spa-logout', onLogout);
-
-    jqueryMap.$acct
-        .text('Please sign-in')
-        .bind('utap', onTapAcct);
 
     return {initModule: initModule};
 }());

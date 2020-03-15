@@ -16,81 +16,6 @@ spa.model = (function () {
         personProto, makeCid, clearPeopleDb, completeLogin,
         makePerson, removePerson, people, chat, initModule;
 
-    chat = (function () {
-        var
-            _publish_listchange,
-            _update_list,
-            _leave_chat,
-            join_chat;
-
-        _update_list = function (arg_list) {
-            var i, person_map, make_person_map,
-                people_list = arg_list[0];
-
-            clearPeopleDb();
-
-            PERSON:
-            for (i = 0; i < people_list.length; i++){
-                person_map = people_list[i];
-
-                if (!person_map.name){
-                    continue;
-                }
-                if (stateMap.user && stateMap.user.id === person_map._id){
-                    stateMap.user.css_map = person_map.css_map;
-                    continue;
-                }
-
-                make_person_map = {
-                    cid: person_map._id,
-                    css_map: person_map.css_map,
-                    is: person_map._id,
-                    name: person_map.name
-                };
-
-                makePerson(make_person_map);
-            }
-
-            stateMap.people_db.sort('name');
-        };
-
-        _publish_listchange = function (arg_list) {
-            _update_list(arg_list);
-            $.gevent.publish('spa-listchange', [arg_list]);
-        };
-
-        _leave_chat = function () {
-            var sio = isFakeData ? spa.fake.mockSio : spa.data.getSio();
-
-            stateMap.is_connected = false;
-            if (sio){
-                sio.emit('leavechat');
-            }
-        };
-
-        join_chat = function () {
-            var sio;
-
-            if (stateMap.is_connected){
-                return false;
-            }
-            if (stateMap.user.get_is_anon()){
-                console.warn('User must be defined before joining chat');
-                return false;
-            }
-
-            sio = isFakeData ? spa.fake.mockSio : spa.data.getSio();
-            sio.on('listchange', _publish_listchange);
-            stateMap.is_connected = true;
-            return true;
-        };
-
-        return {
-            _leave_chat: _leave_chat,
-            join: join_chat
-        };
-    }());
-
     personProto = {
         get_is_user: function () {
             return this.cid === stateMap.user.cid;
@@ -215,8 +140,82 @@ spa.model = (function () {
         };
     }());
 
+    chat = (function () {
+        var
+            _publish_listchange,
+            _update_list,
+            _leave_chat,
+            join_chat;
+
+        _update_list = function (arg_list) {
+            var i, person_map, make_person_map,
+                people_list = arg_list[0];
+
+            clearPeopleDb();
+
+            PERSON:
+            for (i = 0; i < people_list.length; i++){
+                person_map = people_list[i];
+
+                if (!person_map.name){
+                    continue;
+                }
+                if (stateMap.user && stateMap.user.id === person_map._id){
+                    stateMap.user.css_map = person_map.css_map;
+                    continue;
+                }
+
+                make_person_map = {
+                    cid: person_map._id,
+                    css_map: person_map.css_map,
+                    is: person_map._id,
+                    name: person_map.name
+                };
+
+                makePerson(make_person_map);
+            }
+
+            stateMap.people_db.sort('name');
+        };
+
+        _publish_listchange = function (arg_list) {
+            _update_list(arg_list);
+            $.gevent.publish('spa-listchange', [arg_list]);
+        };
+
+        _leave_chat = function () {
+            var sio = isFakeData ? spa.fake.mockSio : spa.data.getSio();
+
+            stateMap.is_connected = false;
+            if (sio){
+                sio.emit('leavechat');
+            }
+        };
+
+        join_chat = function () {
+            var sio;
+
+            if (stateMap.is_connected){
+                return false;
+            }
+            if (stateMap.user.get_is_anon()){
+                console.warn('User must be defined before joining chat');
+                return false;
+            }
+
+            sio = isFakeData ? spa.fake.mockSio : spa.data.getSio();
+            sio.on('listchange', _publish_listchange);
+            stateMap.is_connected = true;
+            return true;
+        };
+
+        return {
+            _leave_chat: _leave_chat,
+            join: join_chat
+        };
+    }());
+
     initModule = function () {
-        var i, people_list, person_map;
 
         stateMap.anon_user = makePerson({
             cid: configMap.anon_id,
@@ -224,19 +223,6 @@ spa.model = (function () {
             name: 'anonymous'
         });
         stateMap.user = stateMap.anon_user;
-
-        if (isFakeData) {
-            people_list = spa.fake.getPeopleList();
-            for (i = 0; i < people_list.length; i++) {
-                person_map = people_list[i];
-                makePerson({
-                    cid: person_map._id,
-                    css_map: person_map.css_map,
-                    id: person_map._id,
-                    name: person_map.name
-                });
-            }
-        }
     };
     return {
         initModule: initModule,

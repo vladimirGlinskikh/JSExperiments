@@ -27,14 +27,34 @@ const showCity = (input, list) => {
     }
 };
 
+const selectCity = (event, input, list) => {
+    const target = event.target;
+    if (target.tagName.toLowerCase() === 'li') {
+        input.value = target.textContent;
+        list.textContent = '';
+    }
+};
+
 inputCitiesFrom.addEventListener('input', () => {
     showCity(inputCitiesFrom, dropdownCitiesFrom)
 });
 
-dropdownCitiesFrom.addEventListener('click', (event) => {
+inputCitiesTo.addEventListener('input', () => {
+   showCity(inputCitiesTo, dropdownCitiesTo);
+});
+
+dropdownCitiesFrom.addEventListener('click', (event) =>{
+    selectCity(event, inputCitiesFrom, dropdownCitiesFrom);
+});
+
+dropdownCitiesTo.addEventListener('click', (event) =>{
+   selectCity(event, inputCitiesTo, dropdownCitiesTo);
+});
+
+dropdownCitiesTo.addEventListener('click', (event) => {
     const target = event.target;
-    if (target.tagName.toLowerCase() === 'li'){
-        inputCitiesFrom.value = target.textContent;
-        dropdownCitiesFrom.textContent = '';
+    if (target.tagName.toLowerCase() === 'li') {
+        inputCitiesTo.value = target.textContent;
+        dropdownCitiesTo.textContent = '';
     }
 });

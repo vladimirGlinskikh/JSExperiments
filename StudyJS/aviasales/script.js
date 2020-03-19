@@ -8,6 +8,16 @@ const formSearch = document.querySelector('.form-search'),
 const city = ['Moscow', 'Kostanay', 'Minsk', 'Karaganda', 'Chelyabinsk',
     'Kerch', 'Volgograd', 'Samara', 'Dnepro', 'Ekaterinburg', 'Odessa'];
 
+const getData = (url) => {
+    const request = new XMLHttpRequest();
+    request.open('GET', url);
+    request.addEventListener('readystatechange', () => {
+        console.log(request.readyState);
+    });
+    request.send();
+};
+getData();
+
 const showCity = (input, list) => {
     list.textContent = '';
 
@@ -40,13 +50,13 @@ inputCitiesFrom.addEventListener('input', () => {
 });
 
 inputCitiesTo.addEventListener('input', () => {
-   showCity(inputCitiesTo, dropdownCitiesTo);
+    showCity(inputCitiesTo, dropdownCitiesTo);
 });
 
-dropdownCitiesFrom.addEventListener('click', (event) =>{
+dropdownCitiesFrom.addEventListener('click', (event) => {
     selectCity(event, inputCitiesFrom, dropdownCitiesFrom);
 });
 
-dropdownCitiesTo.addEventListener('click', (event) =>{
-   selectCity(event, inputCitiesTo, dropdownCitiesTo);
+dropdownCitiesTo.addEventListener('click', (event) => {
+    selectCity(event, inputCitiesTo, dropdownCitiesTo);
 });

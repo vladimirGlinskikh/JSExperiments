@@ -6,10 +6,11 @@ const formSearch = document.querySelector('.form-search'),
     inputDateDepart = document.querySelector('.input__data-depart');
 
 const citiesApi = 'dataBase/cities.json',
-    proxy = 'https://cors-anywhere.herokuapp.com/';
+    proxy = 'https://cors-anywhere.herokuapp.com/',
+    API_KEY = '9911398053a3dfb4a8b46ed46888b756',
+    calendar = 'http://min-prices.aviasales.ru/calendar_preload';
 
-const city = ['Moscow', 'Kostanay', 'Minsk', 'Karaganda', 'Chelyabinsk',
-    'Kerch', 'Volgograd', 'Samara', 'Dnepro', 'Ekaterinburg', 'Odessa'];
+let city = [];
 
 const getData = (url, callback) => {
     const request = new XMLHttpRequest();
@@ -25,13 +26,14 @@ const getData = (url, callback) => {
     });
     request.send();
 };
+
 const showCity = (input, list) => {
 
     list.textContent = '';
     if (input.value !== '') {
 
         const filterCity = city.filter((item) => {
-            const fixItem = item.toLowerCase();
+            const fixItem = item.name.toLowerCase();
             return fixItem.includes(input.value.toLowerCase());
         });
 
@@ -39,11 +41,12 @@ const showCity = (input, list) => {
 
             const li = document.createElement('li');
             li.classList.add('dropdown__city');
-            li.textContent = item;
+            li.textContent = item.name;
             list.append(li)
         });
     }
 };
+
 const selectCity = (event, input, list) => {
 
     const target = event.target;
@@ -52,6 +55,7 @@ const selectCity = (event, input, list) => {
         list.textContent = '';
     }
 };
+
 inputCitiesFrom.addEventListener('input', () => {
     showCity(inputCitiesFrom, dropdownCitiesFrom)
 });
@@ -69,5 +73,8 @@ dropdownCitiesTo.addEventListener('click', (event) => {
 });
 
 getData(citiesApi, (data) => {
-    console.log(data);
+    city = JSON.parse(data).filter((item) => {
+        return item.name;
+    });
+    console.log(city);
 });

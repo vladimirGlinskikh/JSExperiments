@@ -56,6 +56,25 @@ const selectCity = (event, input, list) => {
     }
 };
 
+const renderCheapDay = (cheapTicket) => {
+    console.log(cheapTicket);
+};
+
+const renderCheapYear = (cheapTickets) => {
+    console.log(cheapTickets);
+};
+
+const renderCheap = (data, date) => {
+    const cheapTicketYear = JSON.parse(data).best_prices;
+
+    const cheapTicketDay = cheapTicketYear.filter((item) => {
+        return item.depart_date === date;
+    });
+
+    renderCheapDay(cheapTicketDay);
+    renderCheapYear(cheapTicketYear);
+};
+
 inputCitiesFrom.addEventListener('input', () => {
     showCity(inputCitiesFrom, dropdownCitiesFrom)
 });
@@ -75,12 +94,20 @@ dropdownCitiesTo.addEventListener('click', (event) => {
 formSearch.addEventListener('submit', (event) => {
     event.preventDefault();
 
+    const cityFrom = city.find((item) => inputCitiesFrom.value === item.name);
+    const cityTo = city.find((item) => inputCitiesTo.value === item.name);
+
     const formData = {
-        from: city.find((item)=> inputCitiesFrom.value === item.name),
-        to: city.find((item)=> inputCitiesTo.value === item.name),
+        from: cityFrom.code,
+        to: cityTo.code,
         when: inputDateDepart.value,
     };
-    console.log(formData);
+
+    const requestData = `?depart_date=${formData.when}&origin=${formData.from}&destination=${formData.to}&one_way=true`;
+
+    getData(calendar + requestData, (response) => {
+        renderCheap(response, formData.when);
+    });
 });
 
 getData(citiesApi, (data) => {

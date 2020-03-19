@@ -5,7 +5,7 @@ const formSearch = document.querySelector('.form-search'),
     dropdownCitiesTo = document.querySelector('.dropdown__cities-to'),
     inputDateDepart = document.querySelector('.input__data-depart');
 
-const citiesApi = 'http://api.travelpayouts.com/data/ru/cities.json',
+const citiesApi = 'dataBase/cities.json',
     proxy = 'https://cors-anywhere.herokuapp.com/';
 
 const city = ['Moscow', 'Kostanay', 'Minsk', 'Karaganda', 'Chelyabinsk',
@@ -68,6 +68,6 @@ dropdownCitiesTo.addEventListener('click', (event) => {
     selectCity(event, inputCitiesTo, dropdownCitiesTo);
 });
 
-getData(proxy + citiesApi, (data) => {
+getData(citiesApi, (data) => {
     console.log(data);
 });

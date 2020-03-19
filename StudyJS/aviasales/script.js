@@ -12,11 +12,17 @@ const getData = (url) => {
     const request = new XMLHttpRequest();
     request.open('GET', url);
     request.addEventListener('readystatechange', () => {
-        console.log(request.readyState);
+        if (request.readyState !== 4) return;
+
+        if (request.status === 200){
+            console.log(request.response);
+        } else {
+            console.error(request.status);
+        }
     });
     request.send();
 };
-getData();
+getData('https://jsonplaceholder.typicode.com/todos/');
 
 const showCity = (input, list) => {
     list.textContent = '';

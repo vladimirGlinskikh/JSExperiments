@@ -3,7 +3,7 @@ const formSearch = document.querySelector('.form-search'),
     dropdownCitiesFrom = document.querySelector('.dropdown__cities-from'),
     inputCitiesTo = document.querySelector('.input__cities-to'),
     dropdownCitiesTo = document.querySelector('.dropdown__cities-to'),
-    inputDateDepart = document.querySelector('.input__data-depart');
+    inputDateDepart = document.querySelector('.input__date-depart');
 
 const citiesApi = 'dataBase/cities.json',
     proxy = 'https://cors-anywhere.herokuapp.com/',
@@ -72,9 +72,24 @@ dropdownCitiesTo.addEventListener('click', (event) => {
     selectCity(event, inputCitiesTo, dropdownCitiesTo);
 });
 
+formSearch.addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    const formData = {
+        from: city.find((item)=> inputCitiesFrom.value === item.name),
+        to: city.find((item)=> inputCitiesTo.value === item.name),
+        when: inputDateDepart.value,
+    };
+    console.log(formData);
+});
+
 getData(citiesApi, (data) => {
-    city = JSON.parse(data).filter((item) => {
-        return item.name;
-    });
+    city = JSON.parse(data).filter(item => item.name);
     console.log(city);
 });
+
+/*getData(proxy + calendar + '?depart_date=2020-05-25&origin=SVX&destination=KGD&one_way=true&token='
+    + API_KEY, (data) => {
+    const cheapTicket = JSON.parse(data).best_prices.filter(item => item.depart_date === '2020-05-29')
+    console.log(cheapTicket);
+});*/

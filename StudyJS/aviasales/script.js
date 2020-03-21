@@ -63,6 +63,14 @@ const getNameCity = (code) => {
     return objCity.name;
 };
 
+const getDate = (date) => {
+    return new Date(date).toLocaleString('ru', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+    });
+};
+
 const getChanges = (num) => {
     if (num) {
         return num === 1 ? 'С одной пересадкой' : 'С двумя пересадками';
@@ -89,7 +97,7 @@ const createCard = (data) => {
                     <div class="city__from">Вылет из города
                         <span class="city__name">${getNameCity(data.origin)}</span>
                     </div>
-                    <div class="date">${data.depart_date}</div>
+                    <div class="date">${getDate(data.depart_date)}</div>
                 </div>
 
                 <div class="block-right">

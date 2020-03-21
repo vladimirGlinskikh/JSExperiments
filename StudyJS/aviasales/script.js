@@ -61,6 +61,15 @@ const renderCheapDay = (cheapTicket) => {
 };
 
 const renderCheapYear = (cheapTickets) => {
+    cheapTickets.sort((a, b) => {
+        if (a.value > b.value) {
+            return 1;
+        }
+        if (a.value < b.value) {
+            return -1;
+        }
+        return 0;
+    });
     console.log(cheapTickets);
 };
 
@@ -114,9 +123,3 @@ getData(citiesApi, (data) => {
     city = JSON.parse(data).filter(item => item.name);
     console.log(city);
 });
-
-/*getData(proxy + calendar + '?depart_date=2020-05-25&origin=SVX&destination=KGD&one_way=true&token='
-    + API_KEY, (data) => {
-    const cheapTicket = JSON.parse(data).best_prices.filter(item => item.depart_date === '2020-05-29')
-    console.log(cheapTicket);
-});*/

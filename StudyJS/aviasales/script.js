@@ -113,5 +113,14 @@ formSearch.addEventListener('submit', (event) => {
 
 getData(citiesApi, (data) => {
     city = JSON.parse(data).filter(item => item.name);
+    city.sort((a, b) => {
+        if (a.name > b.name) {
+            return 1;
+        }
+        if (a.name < b.name) {
+            return -1;
+        }
+        return 0;
+    });
     console.log(city);
 });

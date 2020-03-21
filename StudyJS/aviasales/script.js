@@ -61,15 +61,7 @@ const renderCheapDay = (cheapTicket) => {
 };
 
 const renderCheapYear = (cheapTickets) => {
-    cheapTickets.sort((a, b) => {
-        if (a.value > b.value) {
-            return 1;
-        }
-        if (a.value < b.value) {
-            return -1;
-        }
-        return 0;
-    });
+    cheapTickets.sort((a, b) => a.value - b.value);
     console.log(cheapTickets);
 };
 

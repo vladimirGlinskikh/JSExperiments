@@ -3,7 +3,9 @@ const formSearch = document.querySelector('.form-search'),
     dropdownCitiesFrom = document.querySelector('.dropdown__cities-from'),
     inputCitiesTo = document.querySelector('.input__cities-to'),
     dropdownCitiesTo = document.querySelector('.dropdown__cities-to'),
-    inputDateDepart = document.querySelector('.input__date-depart');
+    inputDateDepart = document.querySelector('.input__date-depart'),
+    cheapestTicket = document.getElementById('cheapest-ticket'),
+    otherCheapTickets = document.getElementById('other-cheap-tickets');
 
 const citiesApi = 'dataBase/cities.json',
     proxy = 'https://cors-anywhere.herokuapp.com/',
@@ -56,8 +58,47 @@ const selectCity = (event, input, list) => {
     }
 };
 
+const createCard = (data) => {
+    const ticket = document.createElement('article');
+    ticket.classList.add('ticket');
+
+    let deep = '';
+    if (data) {
+        deep = `
+        <h3 class="agent">${data.gate}</h3>
+        <div class="ticket__wrapper">
+            <div class="left-side">
+                <a href="https://www.aviasales.ru/search/SVX2905KGD1" class="button button__buy">Купить
+                    за ${data.value}₽</a>
+            </div>
+            <div class="right-side">
+                <div class="block-left">
+                    <div class="city__from">Вылет из города
+                        <span class="city__name">${data.origin}</span>
+                    </div>
+                    <div class="date">${data.depart_date}</div>
+                </div>
+
+                <div class="block-right">
+                    <div class="changes">Без пересадок</div>
+                    <div class="city__to">Город назначения:
+                        <span class="city__name">${data.destination}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        `;
+    } else {
+        deep = '<h3>На текущую дату билеты не найдены!</h3>'
+    }
+
+    ticket.insertAdjacentHTML('afterbegin', deep);
+    return ticket;
+};
+
 const renderCheapDay = (cheapTicket) => {
-    console.log(cheapTicket);
+    const ticket = createCard(cheapTicket[0]);
+    cheapestTicket.append(ticket);
 };
 
 const renderCheapYear = (cheapTickets) => {

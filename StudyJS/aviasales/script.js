@@ -34,7 +34,7 @@ const showCity = (input, list) => {
 
         const filterCity = city.filter((item) => {
             const fixItem = item.name.toLowerCase();
-            return fixItem.includes(input.value.toLowerCase());
+            return fixItem.startsWith(input.value.toLowerCase());
         });
 
         filterCity.forEach((item) => {
@@ -95,20 +95,28 @@ dropdownCitiesTo.addEventListener('click', (event) => {
 formSearch.addEventListener('submit', (event) => {
     event.preventDefault();
 
-    const cityFrom = city.find((item) => inputCitiesFrom.value === item.name);
-    const cityTo = city.find((item) => inputCitiesTo.value === item.name);
+    const cityFrom = city.find((item) => {
+        return inputCitiesFrom.value === item.name
+    });
+    const cityTo = city.find((item) => {
+        return inputCitiesTo.value === item.name
+    });
 
     const formData = {
-        from: cityFrom.code,
-        to: cityTo.code,
+        from: cityFrom,
+        to: cityTo,
         when: inputDateDepart.value,
     };
 
-    const requestData = `?depart_date=${formData.when}&origin=${formData.from}&destination=${formData.to}&one_way=true`;
+    if (formData.from && formData.to) {
+        const requestData = `?depart_date=${formData.when}&origin=${formData.from.code}&destination=${formData.to.code}&one_way=true`;
 
-    getData(calendar + requestData, (response) => {
-        renderCheap(response, formData.when);
-    });
+        getData(calendar + requestData, (data) => {
+            renderCheap(data, formData.when);
+        });
+    } else {
+        alert('Введите корректное название города!');
+    }
 });
 
 getData(citiesApi, (data) => {

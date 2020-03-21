@@ -120,11 +120,17 @@ const createCard = (data) => {
 };
 
 const renderCheapDay = (cheapTicket) => {
+    cheapestTicket.style.display = 'block';
+    cheapestTicket.innerHTML = '<h2>Самый дешевый билет на выбранную дату</h2>';
+
     const ticket = createCard(cheapTicket[0]);
     cheapestTicket.append(ticket);
 };
 
 const renderCheapYear = (cheapTickets) => {
+    otherCheapTickets.style.display = 'block';
+    otherCheapTickets.innerHTML = '<h2>Самые дешевые билеты на другие даты</h2>';
+
     cheapTickets.sort((a, b) => a.value - b.value);
     console.log(cheapTickets);
 };
@@ -158,9 +164,6 @@ dropdownCitiesTo.addEventListener('click', (event) => {
 
 formSearch.addEventListener('submit', (event) => {
     event.preventDefault();
-
-    cheapestTicket.innerHTML = '<h2>Самый дешевый билет на выбранную дату</h2>';
-    otherCheapTickets.innerHTML = '<h2>Самые дешевые билеты на другие даты</h2>';
 
     const cityFrom = city.find((item) => {
         return inputCitiesFrom.value === item.name

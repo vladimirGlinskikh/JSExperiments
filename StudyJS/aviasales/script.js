@@ -10,7 +10,8 @@ const formSearch = document.querySelector('.form-search'),
 const citiesApi = 'dataBase/cities.json',
     proxy = 'https://cors-anywhere.herokuapp.com/',
     API_KEY = '9911398053a3dfb4a8b46ed46888b756',
-    calendar = 'http://min-prices.aviasales.ru/calendar_preload';
+    calendar = 'http://min-prices.aviasales.ru/calendar_preload',
+    MAX_COUNT = 10;
 
 let city = [];
 
@@ -81,6 +82,20 @@ const getChanges = (num) => {
     }
 };
 
+const getLinkAviasales = (data) => {
+    let link = 'http://www.aviasales.ru/search/';
+    link += data.origin;
+    const date = new Date(data.depart_date);
+    const day = date.getDate();
+    link += day < 10 ? '0' + day : day;
+    const month = date.getMonth() + 1;
+    link += month < 10 ? '0' + month : month;
+    link += data.destination;
+    link += '1';
+
+    return link;
+};
+
 const createCard = (data) => {
     const ticket = document.createElement('article');
     ticket.classList.add('ticket');
@@ -91,7 +106,7 @@ const createCard = (data) => {
         <h3 class="agent">${data.gate}</h3>
         <div class="ticket__wrapper">
             <div class="left-side">
-                <a href="https://www.aviasales.ru/search/SVX2905KGD1" class="button button__buy">Купить
+                <a href="${getLinkAviasales(data)}" target="_blank" class="button button__buy">Купить
                     за ${data.value}₽</a>
             </div>
             <div class="right-side">
@@ -132,6 +147,11 @@ const renderCheapYear = (cheapTickets) => {
     otherCheapTickets.innerHTML = '<h2>Самые дешевые билеты на другие даты</h2>';
 
     cheapTickets.sort((a, b) => a.value - b.value);
+
+    for (let i = 0; i < cheapTickets.length && i < MAX_COUNT; i++) {
+        const ticket = createCard(cheapTickets[i]);
+        otherCheapTickets.append(ticket);
+    }
     console.log(cheapTickets);
 };
 

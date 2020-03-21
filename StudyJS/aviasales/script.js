@@ -68,6 +68,8 @@ const getDate = (date) => {
         year: 'numeric',
         month: 'long',
         day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
     });
 };
 
@@ -156,6 +158,9 @@ dropdownCitiesTo.addEventListener('click', (event) => {
 
 formSearch.addEventListener('submit', (event) => {
     event.preventDefault();
+
+    cheapestTicket.innerHTML = '<h2>Самый дешевый билет на выбранную дату</h2>';
+    otherCheapTickets.innerHTML = '<h2>Самые дешевые билеты на другие даты</h2>';
 
     const cityFrom = city.find((item) => {
         return inputCitiesFrom.value === item.name

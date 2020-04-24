@@ -39,14 +39,18 @@ let dbOperation = [
     },
 ];
 
-const renderOperation = () => {
+const renderOperation = (operation) => {
     const listItem = document.createElement('li');
     listItem.classList.add('history__item');
-    listItem.innerHTML = `
-                    <span class="history__money">+30000 ₽</span>
+    listItem.innerHTML = `${operation.description}
+                    <span class="history__money">${operation.amount} ₽</span>
                     <button class="history_delete">x</button>
     `;
     historyList.append(listItem);
 };
 
-renderOperation();
+const init = () => {
+    historyList.textContent = '';
+    dbOperation.forEach(renderOperation)
+};
+init();

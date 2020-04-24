@@ -49,7 +49,7 @@ const renderOperation = (operation) => {
     listItem.classList.add(className);
 
     listItem.innerHTML = `${operation.description}
-                    <span class="history__money">${operation.amount} ₽</span>
+                    <span class="history__money">${operation.amount} KZ</span>
                     <button class="history_delete">x</button>
     `;
     historyList.append(listItem);
@@ -64,9 +64,9 @@ const updateBalance = () => {
         .filter((item) => item.amount < 0)
         .reduce((result, item) => result + item.amount, 0);
 
-    totalMoneyIncome.textContent = resultIncome;
-    totalMoneyExpenses.textContent = resultExpenses;
-    totalBalance.textContent = resultIncome + resultExpenses;
+    totalMoneyIncome.textContent = resultIncome + ' KZ';
+    totalMoneyExpenses.textContent = resultExpenses + ' KZ';
+    totalBalance.textContent = (resultIncome + resultExpenses) + ' KZ';
 };
 
 const init = () => {

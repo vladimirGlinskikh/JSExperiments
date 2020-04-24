@@ -55,8 +55,22 @@ const renderOperation = (operation) => {
     historyList.append(listItem);
 };
 
+const updateBalance = () => {
+    const resultIncome = dbOperation
+        .filter((item) => item.amount > 0)
+        .reduce((result, item) => result + item.amount, 0);
+
+    const resultExpenses = dbOperation
+        .filter((item) => item.amount < 0)
+        .reduce((result, item) => result + item.amount, 0);
+
+    totalMoneyIncome.textContent = resultIncome;
+    totalMoneyExpenses.textContent = resultExpenses;
+};
+
 const init = () => {
     historyList.textContent = '';
     dbOperation.forEach(renderOperation)
+    updateBalance();
 };
 init();

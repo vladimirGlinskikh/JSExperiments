@@ -40,8 +40,14 @@ let dbOperation = [
 ];
 
 const renderOperation = (operation) => {
+    const className = operation.amount < 0 ?
+        'history__item-minus' :
+        'history__item-plus';
     const listItem = document.createElement('li');
+
     listItem.classList.add('history__item');
+    listItem.classList.add(className);
+
     listItem.innerHTML = `${operation.description}
                     <span class="history__money">${operation.amount} ₽</span>
                     <button class="history_delete">x</button>

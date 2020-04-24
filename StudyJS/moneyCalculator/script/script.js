@@ -84,7 +84,7 @@ const addOperation = (event) => {
         const operation = {
             id: generateId(),
             description: operationNameValue,
-            amount: operationAmountValue,
+            amount: +operationAmountValue,
         };
         dbOperation.push(operation);
         init();

@@ -1,3 +1,5 @@
+const generateId = () => `genId${Math.round(Math.random() * 1e8).toString(16)}`
+
 const totalBalance = document.querySelector('.total__balance'),
     totalMoneyIncome = document.querySelector('.total__money-income'),
     totalMoneyExpenses = document.querySelector('.total__money-expenses'),
@@ -69,9 +71,38 @@ const updateBalance = () => {
     totalBalance.textContent = (resultIncome + resultExpenses) + ' KZ';
 };
 
+const addOperation = (event) => {
+    event.preventDefault();
+
+    const operationNameValue = operationName.value,
+        operationAmountValue = operationAmount.value;
+
+    operationName.style.borderColor = '';
+    operationAmount.style.borderColor = '';
+
+    if (operationNameValue && operationAmountValue) {
+        const operation = {
+            id: generateId(),
+            description: operationNameValue,
+            amount: operationAmountValue,
+        };
+        dbOperation.push(operation);
+        init();
+        console.log(dbOperation);
+
+    } else {
+        if (!operationNameValue) operationName.style.borderColor = 'red';
+        if (!operationAmountValue) operationAmount.style.borderColor = 'red';
+    }
+    operationName.value = '';
+    operationAmount.value = '';
+};
+
 const init = () => {
     historyList.textContent = '';
     dbOperation.forEach(renderOperation)
     updateBalance();
 };
+
+form.addEventListener('submit', addOperation);
 init();

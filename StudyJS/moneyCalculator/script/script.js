@@ -8,38 +8,7 @@ const totalBalance = document.querySelector('.total__balance'),
     operationName = document.querySelector('.operation__name'),
     operationAmount = document.querySelector('.operation__amount');
 
-let dbOperation = [
-    {
-        id: '1',
-        description: 'Получил зарплату',
-        amount: 30000,
-
-    },
-    {
-        id: '2',
-        description: 'Купил билеты',
-        amount: -10000,
-
-    },
-    {
-        id: '3',
-        description: 'Отдал долг',
-        amount: -5000,
-
-    },
-    {
-        id: '4',
-        description: 'Ужин в ресторане',
-        amount: -4000,
-
-    },
-    {
-        id: '5',
-        description: 'Заработал на фрилансе',
-        amount: 20000,
-
-    },
-];
+let dbOperation = JSON.parse(localStorage.getItem('calc')) || [];
 
 const renderOperation = (operation) => {
     const className = operation.amount < 0 ?
@@ -112,6 +81,7 @@ const init = () => {
     historyList.textContent = '';
     dbOperation.forEach(renderOperation)
     updateBalance();
+    localStorage.setItem('calc', JSON.stringify(dbOperation));
 };
 
 form.addEventListener('submit', addOperation);

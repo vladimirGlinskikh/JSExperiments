@@ -52,7 +52,7 @@ const renderOperation = (operation) => {
 
     listItem.innerHTML = `${operation.description}
                     <span class="history__money">${operation.amount} KZ</span>
-                    <button class="history_delete">x</button>
+                    <button class="history_delete" data-id="${operation.id}">x</button>
     `;
     historyList.append(listItem);
 };
@@ -98,6 +98,16 @@ const addOperation = (event) => {
     operationAmount.value = '';
 };
 
+const deleteOperation = (event) => {
+    const target = event.target;
+    if (target.classList.contains('history_delete')) {
+        dbOperation = dbOperation
+            .filter(operation => operation.id !== target.dataset.id);
+
+        init();
+    }
+};
+
 const init = () => {
     historyList.textContent = '';
     dbOperation.forEach(renderOperation)
@@ -105,4 +115,5 @@ const init = () => {
 };
 
 form.addEventListener('submit', addOperation);
+historyList.addEventListener('click', deleteOperation);
 init();

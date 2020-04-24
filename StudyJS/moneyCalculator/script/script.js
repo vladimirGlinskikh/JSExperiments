@@ -66,6 +66,7 @@ const updateBalance = () => {
 
     totalMoneyIncome.textContent = resultIncome;
     totalMoneyExpenses.textContent = resultExpenses;
+    totalBalance.textContent = resultIncome + resultExpenses;
 };
 
 const init = () => {

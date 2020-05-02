@@ -9,3 +9,6 @@ var object = {
     z: [1, 2, 3, 4]
 };
 console.log(object);
+
+var array = [1,2, 'JavaScript', true, {a: 1, b: 2, c: 3}, ['a', 'b']];
+console.log(array);

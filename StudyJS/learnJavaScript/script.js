@@ -10,11 +10,11 @@ var object = {
 };
 console.log(object);
 
-var array = [1,2, 'JavaScript', true, {a: 1, b: 2, c: 3}, ['a', 'b']];
+var array = [1, 2, 'JavaScript', true, {a: 1, b: 2, c: 3}, ['a', 'b']];
 console.log(array);
 
-function printConsole()  {
-    console.log('message from function');
+function printConsole(a, b, c, d) {
+    console.log(a + b + c + d);
 }
 
-printConsole();
+printConsole(11, 12, 13, 14);

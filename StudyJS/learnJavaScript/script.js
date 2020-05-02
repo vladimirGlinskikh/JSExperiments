@@ -12,3 +12,9 @@ console.log(object);
 
 var array = [1,2, 'JavaScript', true, {a: 1, b: 2, c: 3}, ['a', 'b']];
 console.log(array);
+
+function printConsole()  {
+    console.log('message from function');
+}
+
+printConsole();

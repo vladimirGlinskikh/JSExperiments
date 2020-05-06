@@ -23,6 +23,7 @@ let login = localStorage.getItem('myDelivery');
 console.log(login);
 
 function toggleModalAuth() {
+    loginInput.style.borderColor = '';
     modalAuth.classList.toggle('is-open');
 }
 
@@ -54,16 +55,19 @@ function notAuthorized() {
 
     function logIn(event) {
         event.preventDefault();
-        login = loginInput.value;
 
-        localStorage.setItem('myDelivery', login);
-
-        toggleModalAuth();
-        buttonAuth.removeEventListener('click', toggleModalAuth);
-        closeAuth.removeEventListener('click', toggleModalAuth);
-        loginForm.removeEventListener('submit', logIn);
-        loginForm.reset();
-        checkAuth();
+        if (loginInput.value) {
+            login = loginInput.value;
+            localStorage.setItem('myDelivery', login);
+            toggleModalAuth();
+            buttonAuth.removeEventListener('click', toggleModalAuth);
+            closeAuth.removeEventListener('click', toggleModalAuth);
+            loginForm.removeEventListener('submit', logIn);
+            loginForm.reset();
+            checkAuth();
+        } else {
+            loginInput.style.borderColor = 'red';
+        }
     }
 
     buttonAuth.addEventListener('click', toggleModalAuth);

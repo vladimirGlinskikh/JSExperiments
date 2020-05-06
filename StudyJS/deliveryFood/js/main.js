@@ -47,7 +47,10 @@ function authorized() {
     buttonOut.style.display = 'block';
 
     buttonOut.addEventListener('click', logOut);
+}
 
+function maskInput(String) {
+    return !!String.trim();
 }
 
 function notAuthorized() {
@@ -56,7 +59,7 @@ function notAuthorized() {
     function logIn(event) {
         event.preventDefault();
 
-        if (loginInput.value.trim()) {
+        if (maskInput(loginInput.value)) {
             login = loginInput.value;
             localStorage.setItem('myDelivery', login);
             toggleModalAuth();

@@ -34,6 +34,12 @@ function toggleModalAuth() {
 	modalAuth.classList.toggle('is-open');
 }
 
+function returnMain() {
+	containerPromo.classList.remove('hide');
+	restaurants.classList.remove('hide');
+	menu.classList.add('hide');
+}
+
 function authorized() {
 
 	function logOut() {
@@ -44,6 +50,7 @@ function authorized() {
 		buttonOut.style.display = '';
 		buttonOut.removeEventListener('click', logOut);
 		checkAuth();
+		returnMain();
 	}
 
 	console.log('You are authorized!');

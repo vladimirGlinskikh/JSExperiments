@@ -175,3 +175,8 @@ logo.addEventListener('click', function () {
 
 checkAuth();
 createCardRestaurant();
+
+new Swiper('.swiper-container', {
+	loop: true,
+	autoplay: true,
+})

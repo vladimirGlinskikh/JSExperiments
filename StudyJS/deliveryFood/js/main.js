@@ -19,7 +19,12 @@ const cardsMenu = document.querySelector('.cards-menu');
 
 let login = localStorage.getItem('myDelivery');
 
-function toggleModal() {
+const valid = function (str) {
+	const nameReg = /^[a-zA-Z][a-zA-Z0-9-_\.]{1,20}$/;
+	return nameReg.test(str);
+}
+
+const toggleModal = function () {
 
 	modal.classList.toggle("is-open");
 }
@@ -59,8 +64,7 @@ function notAuthorized() {
 	function logIn(event) {
 
 		event.preventDefault();
-		if (loginInput.value) {
-
+		if (valid(loginInput.value)) {
 			loginInput.style.borderColor = '';
 			login = loginInput.value;
 			localStorage.setItem('myDelivery', login);
@@ -72,6 +76,7 @@ function notAuthorized() {
 			checkAuth();
 		} else {
 			loginInput.style.borderColor = 'red';
+			loginInput.value = '';
 		}
 	}
 
@@ -178,5 +183,9 @@ createCardRestaurant();
 
 new Swiper('.swiper-container', {
 	loop: true,
-	autoplay: true,
+	autoplay: {
+		delay: 3000,
+	},
+	sliderPerView: 1,
+	sliderPerColumn: 1,
 })

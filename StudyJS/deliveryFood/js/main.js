@@ -19,22 +19,33 @@ const cardsMenu = document.querySelector('.cards-menu');
 
 let login = localStorage.getItem('myDelivery');
 
+const getData = async function (url) {
+	const response = await fetch(url);
+	if (!response.ok) {
+		throw new Error(`error at address ${url}, error status ${response.status}!`);
+	}
+	return await response.json();
+};
+
 const valid = function (str) {
+
 	const nameReg = /^[a-zA-Z][a-zA-Z0-9-_\.]{1,20}$/;
 	return nameReg.test(str);
 }
-
 const toggleModal = function () {
 
 	modal.classList.toggle("is-open");
-}
+
+};
 
 function toggleModalAuth() {
 
 	modalAuth.classList.toggle('is-open');
+
 }
 
 function returnMain() {
+
 	containerPromo.classList.remove('hide');
 	restaurants.classList.remove('hide');
 	menu.classList.add('hide');
@@ -43,6 +54,7 @@ function returnMain() {
 function authorized() {
 
 	function logOut() {
+
 		login = null;
 		localStorage.removeItem('myDelivery');
 		buttonAuth.style.display = '';
@@ -56,12 +68,12 @@ function authorized() {
 	console.log('You are authorized!');
 
 	userName.textContent = login;
-	buttonAuth.style.display = 'none';
 
+	buttonAuth.style.display = 'none';
 	userName.style.display = 'inline';
+
 	buttonOut.style.display = 'block';
 	buttonOut.addEventListener('click', logOut);
-
 }
 
 function notAuthorized() {
@@ -71,6 +83,7 @@ function notAuthorized() {
 	function logIn(event) {
 
 		event.preventDefault();
+
 		if (valid(loginInput.value)) {
 			loginInput.style.borderColor = '';
 			login = loginInput.value;
@@ -90,34 +103,45 @@ function notAuthorized() {
 	buttonAuth.addEventListener('click', toggleModalAuth);
 
 	closeAuth.addEventListener('click', toggleModalAuth);
+
 	loginForm.addEventListener('submit', logIn)
 }
 
 function checkAuth() {
 
 	if (login) {
+
 		authorized();
 	} else {
 		notAuthorized();
 	}
 }
 
-function createCardRestaurant() {
+function createCardRestaurant(restaurant) {
+	const {
+		image,
+		kitchen,
+		name,
+		price,
+		stars,
+		products,
+		time_of_delivery: timeOfDelivery
+	} = restaurant;
 
 	const card = `
-\t\t\t\t<a class="card card-restaurant">
-\t\t\t\t\t<img src="img/tanuki/preview.jpg" alt="image" class="card-image"/>
+\t\t\t\t<a class="card card-restaurant" data-products="${products}">
+\t\t\t\t\t<img src="${image}" alt="image" class="card-image"/>
 \t\t\t\t\t<div class="card-text">
 \t\t\t\t\t\t<div class="card-heading">
-\t\t\t\t\t\t\t<h3 class="card-title">Тануки</h3>
-\t\t\t\t\t\t\t<span class="card-tag tag">60 мин</span>
+\t\t\t\t\t\t\t<h3 class="card-title">${name}</h3>
+\t\t\t\t\t\t\t<span class="card-tag tag">${timeOfDelivery} мин</span>
 \t\t\t\t\t\t</div>
 \t\t\t\t\t\t<div class="card-info">
 \t\t\t\t\t\t\t<div class="rating">
-\t\t\t\t\t\t\t\t4.5
+\t\t\t\t\t\t\t\t${stars}
 \t\t\t\t\t\t\t</div>
-\t\t\t\t\t\t\t<div class="price">От 1 200 ₽</div>
-\t\t\t\t\t\t\t<div class="category">Суши, роллы</div>
+\t\t\t\t\t\t\t<div class="price">От ${price} ₽</div>
+\t\t\t\t\t\t\t<div class="category">${kitchen}</div>
 \t\t\t\t\t\t</div>
 \t\t\t\t\t</div>
 \t\t\t\t</a>
@@ -127,7 +151,9 @@ function createCardRestaurant() {
 
 }
 
-function createCardGood() {
+function createCardGood(goods) {
+	console.log(goods);
+	const {description, id, image, name, price} = goods;
 
 	const card = document.createElement('div');
 
@@ -153,46 +179,54 @@ function createCardGood() {
 \t\t\t\t\t\t\t</div>
 \t\t\t\t\t\t</div>
 	`);
+
 	cardsMenu.insertAdjacentElement('beforeend', card);
 }
 
 function openGoods(event) {
-
 	const target = event.target;
-
-	const restaurant = target.closest('.card-restaurant');
-
-	if (restaurant) {
-		if (login) {
+	if (login) {
+		const restaurant = target.closest('.card-restaurant');
+		if (restaurant) {
 			cardsMenu.textContent = '';
 			containerPromo.classList.add('hide');
 			restaurants.classList.add('hide');
 			menu.classList.remove('hide');
-			createCardGood();
-		} else {
-			toggleModalAuth();
+			getData(`./db/${restaurant.dataset.products}`).then(function (data) {
+				data.forEach(createCardGood);
+			});
 		}
+	} else {
+		toggleModalAuth();
 	}
 }
 
-cartButton.addEventListener("click", toggleModal);
-close.addEventListener("click", toggleModal);
+getData('./db/partners.json').then(function (data) {
+	data.forEach(createCardRestaurant)
+});
 
-cardsRestaurants.addEventListener('click', openGoods);
-logo.addEventListener('click', function () {
-	containerPromo.classList.remove('hide');
-	restaurants.classList.remove('hide');
-	menu.classList.add('hide');
-})
+function init() {
+	cartButton.addEventListener("click", toggleModal);
+	close.addEventListener("click", toggleModal);
 
-checkAuth();
-createCardRestaurant();
+	cardsRestaurants.addEventListener('click', openGoods);
+	logo.addEventListener('click', function () {
+		containerPromo.classList.remove('hide');
+		restaurants.classList.remove('hide');
+		menu.classList.add('hide');
+	})
 
-new Swiper('.swiper-container', {
-	loop: true,
-	autoplay: {
-		delay: 3000,
-	},
-	sliderPerView: 1,
-	sliderPerColumn: 1,
-})
+	checkAuth();
+
+
+	new Swiper('.swiper-container', {
+		loop: true,
+		autoplay: {
+			delay: 3000,
+		},
+		sliderPerView: 1,
+		sliderPerColumn: 1,
+	})
+}
+
+init();

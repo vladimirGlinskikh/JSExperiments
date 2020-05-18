@@ -21,3 +21,11 @@ body {
     border: 1px solid silver;
     display: inline-block;
 }
+
+.movingCell {
+    background-color: blue;
+}
+
+.fixedCell {
+    background-color: green;
+}

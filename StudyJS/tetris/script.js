@@ -65,7 +65,21 @@ function moveTetroDown() {
 				}
 			}
 		}
+	} else {
+		fixTetro();
 	}
+}
+
+function fixTetro() {
+	for (let y = 0; y < playfield.length; y++) {
+		for (let x = 0; x < playfield[y].length; x++) {
+			if (playfield[y][x] === 1) {
+				playfield[y][x] = 2;
+			}
+		}
+	}
+	playfield[0] = [0, 0, 0, 0, 0, 0, 1, 0, 0, 0];
+	playfield[1] = [0, 0, 0, 0, 0, 1, 1, 1, 0, 0];
 }
 
 draw();

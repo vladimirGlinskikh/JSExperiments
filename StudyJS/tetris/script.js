@@ -59,7 +59,6 @@ function moveTetroDown() {
 		for (let y = playfield.length - 1; y >= 0; y--) {
 			for (let x = 0; x < playfield[y].length; x++) {
 				if (playfield[y][x] === 1) {
-					console.log(playfield[y + 1]);
 					playfield[y + 1][x] = 1;
 					playfield[y][x] = 0;
 				}
@@ -67,6 +66,33 @@ function moveTetroDown() {
 		}
 	} else {
 		fixTetro();
+	}
+}
+
+// moved left
+function canTetroMoveLeft() {
+	for (let y = 0; y < playfield.length; y++) {
+		for (let x = 0; x < playfield[y].length; x++) {
+			if (playfield[y][x] === 1) {
+				if (x === 0 || playfield[y][x - 1] === 2) {
+					return false;
+				}
+			}
+		}
+	}
+	return true;
+}
+
+function moveTetroLeft() {
+	if (canTetroMoveLeft()) {
+		for (let y = playfield.length - 1; y >= 0; y--) {
+			for (let x = 0; x < playfield[y].length; x++) {
+				if (playfield[y][x] === 1) {
+					playfield[y][x - 1] = 1;
+					playfield[y][x] = 0;
+				}
+			}
+		}
 	}
 }
 
@@ -83,6 +109,16 @@ function fixTetro() {
 }
 
 draw();
+
+document.onkeydown = function (element) {
+	if (element.keyCode === 37) {
+		moveTetroLeft();
+	} else if (element.keyCode === 39) {
+
+	} else if (element.keyCode === 40) {
+
+	}
+}
 
 function startGame() {
 	moveTetroDown();

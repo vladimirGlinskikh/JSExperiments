@@ -19,8 +19,8 @@ let playfield = [
 	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 2, 2, 0, 0, 0, 0],
+	[0, 0, 0, 0, 2, 2, 0, 0, 0, 0],
 ];
 
 let gameSpeed = 500;
@@ -31,6 +31,8 @@ function draw() {
 		for (let x = 0; x < playfield[y].length; x++) {
 			if (playfield[y][x] === 1) {
 				mainInnerHTML += `<div class="cell movingCell"></div>`;
+			} else if (playfield[y][x] === 2) {
+				mainInnerHTML += `<div class="cell fixedCell"></div>`;
 			} else {
 				mainInnerHTML += `<div class="cell"></div>`;
 			}
@@ -43,7 +45,7 @@ function canTetroMoveDown() {
 	for (let y = 0; y < playfield.length; y++) {
 		for (let x = 0; x < playfield[y].length; x++) {
 			if (playfield[y][x] === 1) {
-				if (y == playfield.length - 1) {
+				if (y == playfield.length - 1 || playfield[y + 1][x] === 2) {
 					return false;
 				}
 			}

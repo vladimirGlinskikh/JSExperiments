@@ -145,6 +145,7 @@ document.onkeydown = function (element) {
 	} else if (element.keyCode === 40) {
 		moveTetroDown();
 	}
+	draw();
 }
 
 function startGame() {

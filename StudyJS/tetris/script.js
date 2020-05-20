@@ -123,6 +123,20 @@ function moveTetroRight() {
 	}
 }
 
+function removeFullLines() {
+	let canRemoveLine = true;
+	for (let y = 0; y < playfield.length; y++) {
+		for (let x = 0; x < playfield[y].length; x++) {
+			if (playfield[y][x] !== 2) {
+				canRemoveLine = false;
+			}
+		}
+		if (canRemoveLine) {
+			playfield.splice(y, 1);
+		}
+	}
+}
+
 function fixTetro() {
 	for (let y = 0; y < playfield.length; y++) {
 		for (let x = 0; x < playfield[y].length; x++) {
@@ -131,8 +145,11 @@ function fixTetro() {
 			}
 		}
 	}
-	playfield[0] = [0, 0, 0, 0, 0, 0, 1, 0, 0, 0];
-	playfield[1] = [0, 0, 0, 0, 0, 1, 1, 1, 0, 0];
+
+	removeFullLines();
+
+	playfield[0] = [0, 0, 0, 0, 0, 0, 1, 1, 0, 0];
+	playfield[1] = [0, 0, 0, 0, 0, 0, 1, 1, 0, 0];
 }
 
 draw();

@@ -143,7 +143,7 @@ document.onkeydown = function (element) {
 	} else if (element.keyCode === 39) {
 		moveTetroRight();
 	} else if (element.keyCode === 40) {
-
+		moveTetroDown();
 	}
 }
 

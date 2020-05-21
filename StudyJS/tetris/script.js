@@ -71,6 +71,16 @@ function addActiveTetro() {
 	}
 }
 
+function rotateTetro() {
+	const prevTetroState = activeTetro.shape;
+
+	activeTetro.shape = activeTetro.shape[0].map((val, index) =>
+		activeTetro.shape.map((row) => row[index]).reverse());
+	if (hasCollisions()) {
+		activeTetro.shape = prevTetroState;
+	}
+}
+
 function hasCollisions() {
 	for (let y = 0; y < activeTetro.shape.length; y++) {
 		for (let x = 0; x < activeTetro.shape[y].length; x++) {
@@ -118,6 +128,15 @@ function fixTetro() {
 
 }
 
+function moveTetroDown() {
+	activeTetro.y += 1;
+	if (hasCollisions()) {
+		activeTetro.y -= 1;
+		fixTetro();
+		activeTetro.y = 0;
+	}
+}
+
 document.onkeydown = function (element) {
 	if (element.keyCode === 37) {
 		activeTetro.x -= 1;
@@ -130,12 +149,9 @@ document.onkeydown = function (element) {
 			activeTetro.x -= 1;
 		}
 	} else if (element.keyCode === 40) {
-		activeTetro.y += 1;
-		if (hasCollisions()) {
-			activeTetro.y -= 1;
-			fixTetro();
-			activeTetro.y = 0;
-		}
+		moveTetroDown();
+	} else if (element.keyCode === 38) {
+		rotateTetro();
 	}
 	addActiveTetro();
 	draw();
@@ -144,10 +160,11 @@ document.onkeydown = function (element) {
 addActiveTetro();
 draw();
 
-// function startGame() {
-// 	moveTetroDown();
-// 	draw();
-// 	setTimeout(startGame, gameSpeed);
-// }
-//
-// setTimeout(startGame, gameSpeed);
+function startGame() {
+	moveTetroDown();
+	addActiveTetro();
+	draw();
+	setTimeout(startGame, gameSpeed);
+}
+
+setTimeout(startGame, gameSpeed);

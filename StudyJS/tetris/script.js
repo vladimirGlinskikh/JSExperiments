@@ -24,15 +24,55 @@ let playfield = [
 ];
 
 let gameSpeed = 500;
+
 let activeTetro = {
 	x: 0,
 	y: 0,
 	shape: [
+		[0, 1, 0, 0],
+		[0, 1, 0, 0],
+		[0, 1, 0, 0],
+		[0, 1, 0, 0],
+	],
+};
+
+let fugures = {
+	O: [
+		[1, 1],
+		[1, 1],
+	],
+	I: [
+		[0, 1, 0, 0],
+		[0, 1, 0, 0],
+		[0, 1, 0, 0],
+		[0, 1, 0, 0],
+	],
+	S: [
+		[0, 1, 1],
+		[1, 1, 0],
+		[0, 0, 0],
+	],
+	Z: [
+		[1, 1, 0],
+		[0, 1, 1],
+		[0, 0, 0],
+	],
+	L: [
+		[1, 0, 0],
+		[1, 1, 1],
+		[0, 0, 0],
+	],
+	J: [
+		[0, 0, 1],
+		[1, 1, 1],
+		[0, 0, 0],
+	],
+	T: [
 		[1, 1, 1],
 		[0, 1, 0],
 		[0, 0, 0],
-	],
-};
+	]
+}
 
 function draw() {
 	let mainInnerHTML = ``;
@@ -64,7 +104,7 @@ function addActiveTetro() {
 	removePrevActiveTetro();
 	for (let y = 0; y < activeTetro.shape.length; y++) {
 		for (let x = 0; x < activeTetro.shape[y].length; x++) {
-			if (activeTetro.shape[y][x] === 1) {
+			if (activeTetro.shape[y][x]) {
 				playfield[activeTetro.y + y][activeTetro.x + x] = activeTetro.shape[y][x];
 			}
 		}
@@ -112,6 +152,12 @@ function removeFullLines() {
 	}
 }
 
+function getNewTetro() {
+	const possibleFigures = "IOLJTSZ";
+	const rand = Math.floor(Math.random() * 7);
+	return fugures[possibleFigures[rand]];
+}
+
 function fixTetro() {
 	for (let y = 0; y < playfield.length; y++) {
 		for (let x = 0; x < playfield[y].length; x++) {
@@ -120,12 +166,6 @@ function fixTetro() {
 			}
 		}
 	}
-
-	// removeFullLines();
-	//
-	// playfield[0] = [0, 0, 0, 0, 0, 0, 1, 1, 0, 0];
-	// playfield[1] = [0, 0, 0, 0, 0, 0, 1, 1, 0, 0];
-
 }
 
 function moveTetroDown() {
@@ -133,6 +173,8 @@ function moveTetroDown() {
 	if (hasCollisions()) {
 		activeTetro.y -= 1;
 		fixTetro();
+		activeTetro.shape = getNewTetro();
+		activeTetro.x = Math.floor((10 - activeTetro.shape[0].length) / 2);
 		activeTetro.y = 0;
 	}
 }

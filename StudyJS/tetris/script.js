@@ -137,7 +137,8 @@ function hasCollisions() {
 }
 
 function removeFullLines() {
-	let canRemoveLine = true;
+	let canRemoveLine = true,
+		filledLines = 0;
 	for (let y = 0; y < playfield.length; y++) {
 		for (let x = 0; x < playfield[y].length; x++) {
 			if (playfield[y][x] !== 2) {
@@ -148,11 +149,27 @@ function removeFullLines() {
 		if (canRemoveLine) {
 			playfield.splice(y, 1);
 			playfield.splice(0, 0, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
-			score += 10;
-			scoreElem.innerHTML = score;
+			filledLines += 1;
 		}
 		canRemoveLine = true;
 	}
+
+	switch (filledLines) {
+		case 1:
+			score += 10;
+			break;
+		case 2:
+			score += 10 * 3;
+			break;
+		case 3:
+			score += 10 * 6;
+			break;
+		case 4:
+			score += 10 * 12;
+			break;
+	}
+
+	scoreElem.innerHTML = score;
 }
 
 function getNewTetro() {

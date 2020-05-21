@@ -24,7 +24,7 @@ let playfield = [
 ];
 
 let gameSpeed = 500;
-
+let score = 0;
 let activeTetro = {
 	x: 0,
 	y: 0,

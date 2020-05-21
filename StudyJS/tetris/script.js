@@ -129,11 +129,14 @@ function removeFullLines() {
 		for (let x = 0; x < playfield[y].length; x++) {
 			if (playfield[y][x] !== 2) {
 				canRemoveLine = false;
+				break;
 			}
 		}
 		if (canRemoveLine) {
 			playfield.splice(y, 1);
+			playfield.splice(0, 0, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
 		}
+		canRemoveLine = true;
 	}
 }
 
@@ -150,9 +153,8 @@ function fixTetro() {
 
 	playfield[0] = [0, 0, 0, 0, 0, 0, 1, 1, 0, 0];
 	playfield[1] = [0, 0, 0, 0, 0, 0, 1, 1, 0, 0];
-}
 
-draw();
+}
 
 document.onkeydown = function (element) {
 	if (element.keyCode === 37) {

@@ -64,7 +64,7 @@ function addActiveTetro() {
 	removePrevActiveTetro();
 	for (let y = 0; y < activeTetro.shape.length; y++) {
 		for (let x = 0; x < activeTetro.shape[y].length; x++) {
-			if (activeTetro.shape[y][x]) {
+			if (activeTetro.shape[y][x] === 1) {
 				playfield[activeTetro.y + y][activeTetro.x + x] = activeTetro.shape[y][x];
 			}
 		}
@@ -110,10 +110,10 @@ function fixTetro() {
 		}
 	}
 
-	removeFullLines();
-
-	playfield[0] = [0, 0, 0, 0, 0, 0, 1, 1, 0, 0];
-	playfield[1] = [0, 0, 0, 0, 0, 0, 1, 1, 0, 0];
+	// removeFullLines();
+	//
+	// playfield[0] = [0, 0, 0, 0, 0, 0, 1, 1, 0, 0];
+	// playfield[1] = [0, 0, 0, 0, 0, 0, 1, 1, 0, 0];
 
 }
 
@@ -132,6 +132,8 @@ document.onkeydown = function (element) {
 		activeTetro.y += 1;
 		if (hasCollisions()) {
 			activeTetro.y -= 1;
+			fixTetro();
+			activeTetro.y = 0;
 		}
 	}
 	addActiveTetro();

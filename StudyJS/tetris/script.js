@@ -1,4 +1,5 @@
 let main = document.querySelector(".main");
+const scoreElem = document.getElementById('score');
 
 let playfield = [
 	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -147,6 +148,8 @@ function removeFullLines() {
 		if (canRemoveLine) {
 			playfield.splice(y, 1);
 			playfield.splice(0, 0, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+			score += 10;
+			scoreElem.innerHTML = score;
 		}
 		canRemoveLine = true;
 	}

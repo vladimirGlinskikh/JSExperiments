@@ -32,12 +32,27 @@ let possibleLevels = {
 	1: {
 		scorePerLine: 10,
 		speed: 400,
-		nextLevelScore: 500
+		nextLevelScore: 30
 	},
 	2: {
-		scorePerLine: 15,
+		scorePerLine: 20,
 		speed: 300,
-		nextLevelScore: 1500
+		nextLevelScore: 500
+	},
+	3: {
+		scorePerLine: 30,
+		speed: 200,
+		nextLevelScore: 1000
+	},
+	4: {
+		scorePerLine: 40,
+		speed: 100,
+		nextLevelScore: 2000
+	},
+	5: {
+		scorePerLine: 50,
+		speed: 50,
+		nextLevelScore: Infinity
 	},
 };
 
@@ -183,8 +198,11 @@ function removeFullLines() {
 			score += 10 * 12;
 			break;
 	}
-
 	scoreElem.innerHTML = score;
+	if (score >= possibleLevels[currentLevel].nextLevelScore) {
+		currentLevel++;
+		levelElem.innerHTML = currentLevel;
+	}
 }
 
 function getNewTetro() {

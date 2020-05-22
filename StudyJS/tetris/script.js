@@ -241,6 +241,9 @@ function moveTetroDown() {
 		fixTetro();
 		removeFullLines();
 		activeTetro = nextTetro;
+		if (hasCollisions()) {
+			alert('game over');
+		}
 		nextTetro = getNewTetro();
 	}
 }

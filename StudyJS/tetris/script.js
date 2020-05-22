@@ -286,8 +286,13 @@ document.onkeydown = function (element) {
 	drawNextTetro();
 };
 
-pauseBtn.addEventListener('click', () => {
-	isPaused = true;
+pauseBtn.addEventListener('click', (e) => {
+	if (e.target.innerHTML === 'Pause'){
+		e.target.innerHTML = 'keep playing...';
+	}else {
+		e.target.innerHTML = 'Pause';
+	}
+	isPaused = !isPaused;
 });
 
 scoreElem.innerHTML = score;

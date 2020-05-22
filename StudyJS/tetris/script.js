@@ -186,16 +186,16 @@ function removeFullLines() {
 
 	switch (filledLines) {
 		case 1:
-			score += 10;
+			score += possibleLevels[currentLevel].scorePerLine;
 			break;
 		case 2:
-			score += 10 * 3;
+			score += possibleLevels[currentLevel].scorePerLine * 3;
 			break;
 		case 3:
-			score += 10 * 6;
+			score += possibleLevels[currentLevel].scorePerLine * 6;
 			break;
 		case 4:
-			score += 10 * 12;
+			score += possibleLevels[currentLevel].scorePerLine * 12;
 			break;
 	}
 	scoreElem.innerHTML = score;

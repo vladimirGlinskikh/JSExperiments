@@ -2,6 +2,8 @@ let main = document.querySelector(".main");
 const scoreElem = document.getElementById('score');
 const levelElem = document.getElementById('level');
 const nextTetroElem = document.getElementById('next-tetro');
+const startBtn = document.getElementById('start');
+const pauseBtn = document.getElementById('pause');
 
 let playfield = [
 	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -28,6 +30,7 @@ let playfield = [
 
 let score = 0;
 let currentLevel = 1;
+let isPaused = false;
 
 let possibleLevels = {
 	1: {
@@ -235,16 +238,18 @@ function fixTetro() {
 }
 
 function moveTetroDown() {
-	activeTetro.y += 1;
-	if (hasCollisions()) {
-		activeTetro.y -= 1;
-		fixTetro();
-		removeFullLines();
-		activeTetro = nextTetro;
+	if (!isPaused) {
+		activeTetro.y += 1;
 		if (hasCollisions()) {
-			alert('game over');
+			activeTetro.y -= 1;
+			fixTetro();
+			removeFullLines();
+			activeTetro = nextTetro;
+			if (hasCollisions()) {
+				alert('game over');
+			}
+			nextTetro = getNewTetro();
 		}
-		nextTetro = getNewTetro();
 	}
 }
 
@@ -280,6 +285,10 @@ document.onkeydown = function (element) {
 	draw();
 	drawNextTetro();
 };
+
+pauseBtn.addEventListener('click', () => {
+	isPaused = true;
+});
 
 scoreElem.innerHTML = score;
 levelElem.innerHTML = currentLevel;

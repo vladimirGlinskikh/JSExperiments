@@ -227,6 +227,16 @@ function moveTetroDown() {
 	}
 }
 
+function dropTetro() {
+	for (let y = activeTetro.y; y < playfield.length; y++) {
+		activeTetro.y += 1;
+		if (hasCollisions()) {
+			activeTetro.y -= 1;
+			break;
+		}
+	}
+}
+
 document.onkeydown = function (element) {
 	if (element.keyCode === 37) {
 		activeTetro.x -= 1;
@@ -242,6 +252,8 @@ document.onkeydown = function (element) {
 		moveTetroDown();
 	} else if (element.keyCode === 38) {
 		rotateTetro();
+	} else if (element.keyCode === 32) {
+		dropTetro();
 	}
 	addActiveTetro();
 	draw();

@@ -238,18 +238,16 @@ function fixTetro() {
 }
 
 function moveTetroDown() {
-	if (!isPaused) {
-		activeTetro.y += 1;
+	activeTetro.y += 1;
+	if (hasCollisions()) {
+		activeTetro.y -= 1;
+		fixTetro();
+		removeFullLines();
+		activeTetro = nextTetro;
 		if (hasCollisions()) {
-			activeTetro.y -= 1;
-			fixTetro();
-			removeFullLines();
-			activeTetro = nextTetro;
-			if (hasCollisions()) {
-				alert('game over');
-			}
-			nextTetro = getNewTetro();
+			alert('game over');
 		}
+		nextTetro = getNewTetro();
 	}
 }
 
@@ -264,32 +262,34 @@ function dropTetro() {
 }
 
 document.onkeydown = function (element) {
-	if (element.keyCode === 37) {
-		activeTetro.x -= 1;
-		if (hasCollisions()) {
-			activeTetro.x += 1;
-		}
-	} else if (element.keyCode === 39) {
-		activeTetro.x += 1;
-		if (hasCollisions()) {
+	if (!isPaused) {
+		if (element.keyCode === 37) {
 			activeTetro.x -= 1;
+			if (hasCollisions()) {
+				activeTetro.x += 1;
+			}
+		} else if (element.keyCode === 39) {
+			activeTetro.x += 1;
+			if (hasCollisions()) {
+				activeTetro.x -= 1;
+			}
+		} else if (element.keyCode === 40) {
+			moveTetroDown();
+		} else if (element.keyCode === 38) {
+			rotateTetro();
+		} else if (element.keyCode === 32) {
+			dropTetro();
 		}
-	} else if (element.keyCode === 40) {
-		moveTetroDown();
-	} else if (element.keyCode === 38) {
-		rotateTetro();
-	} else if (element.keyCode === 32) {
-		dropTetro();
+		addActiveTetro();
+		draw();
+		drawNextTetro();
 	}
-	addActiveTetro();
-	draw();
-	drawNextTetro();
 };
 
 pauseBtn.addEventListener('click', (e) => {
-	if (e.target.innerHTML === 'Pause'){
+	if (e.target.innerHTML === 'Pause') {
 		e.target.innerHTML = 'keep playing...';
-	}else {
+	} else {
 		e.target.innerHTML = 'Pause';
 	}
 	isPaused = !isPaused;
@@ -303,10 +303,12 @@ draw();
 drawNextTetro();
 
 function startGame() {
-	moveTetroDown();
-	addActiveTetro();
-	draw();
-	drawNextTetro();
+	if (!isPaused) {
+		moveTetroDown();
+		addActiveTetro();
+		draw();
+		drawNextTetro();
+	}
 	setTimeout(startGame, possibleLevels[currentLevel].speed);
 }
 

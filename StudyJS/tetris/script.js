@@ -309,11 +309,17 @@ document.onkeydown = function (element) {
 		} else if (element.keyCode === 32) {
 			dropTetro();
 		}
+		updateGameState();
+	}
+}
+
+function updateGameState() {
+	if (!isPaused){
 		addActiveTetro();
 		draw();
 		drawNextTetro();
 	}
-};
+}
 
 pauseBtn.addEventListener('click', (e) => {
 	if (e.target.innerHTML === 'Pause') {
@@ -339,9 +345,7 @@ draw();
 function startGame() {
 	moveTetroDown();
 	if (!isPaused) {
-		addActiveTetro();
-		draw();
-		drawNextTetro();
+		updateGameState();
 		gameTimerID = setTimeout(startGame, possibleLevels[currentLevel].speed);
 	}
 }

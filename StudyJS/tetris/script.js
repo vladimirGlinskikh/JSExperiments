@@ -295,12 +295,14 @@ pauseBtn.addEventListener('click', (e) => {
 	isPaused = !isPaused;
 });
 
+startBtn.addEventListener('click', e =>{
+	setTimeout(startGame, possibleLevels[currentLevel].speed);
+});
+
 scoreElem.innerHTML = score;
 levelElem.innerHTML = currentLevel;
 
-addActiveTetro();
 draw();
-drawNextTetro();
 
 function startGame() {
 	if (!isPaused) {
@@ -311,5 +313,3 @@ function startGame() {
 	}
 	setTimeout(startGame, possibleLevels[currentLevel].speed);
 }
-
-setTimeout(startGame, possibleLevels[currentLevel].speed);

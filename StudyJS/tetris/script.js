@@ -29,8 +29,9 @@ let playfield = [
 ];
 
 let score = 0;
+let gameTimerID;
 let currentLevel = 1;
-let isPaused = false;
+let isPaused = true;
 
 let possibleLevels = {
 	1: {
@@ -289,14 +290,17 @@ document.onkeydown = function (element) {
 pauseBtn.addEventListener('click', (e) => {
 	if (e.target.innerHTML === 'Pause') {
 		e.target.innerHTML = 'keep playing...';
+		clearTimeout(gameTimerID);
 	} else {
 		e.target.innerHTML = 'Pause';
+		gameTimerID = setTimeout(startGame, possibleLevels[currentLevel].speed);
 	}
 	isPaused = !isPaused;
 });
 
-startBtn.addEventListener('click', e =>{
-	setTimeout(startGame, possibleLevels[currentLevel].speed);
+startBtn.addEventListener('click', e => {
+	isPaused = false;
+	gameTimerID = setTimeout(startGame, possibleLevels[currentLevel].speed);
 });
 
 scoreElem.innerHTML = score;
@@ -305,11 +309,9 @@ levelElem.innerHTML = currentLevel;
 draw();
 
 function startGame() {
-	if (!isPaused) {
-		moveTetroDown();
-		addActiveTetro();
-		draw();
-		drawNextTetro();
-	}
-	setTimeout(startGame, possibleLevels[currentLevel].speed);
+	moveTetroDown();
+	addActiveTetro();
+	draw();
+	drawNextTetro();
+	gameTimerID = setTimeout(startGame, possibleLevels[currentLevel].speed);
 }

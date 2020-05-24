@@ -4,6 +4,7 @@ const levelElem = document.getElementById('level');
 const nextTetroElem = document.getElementById('next-tetro');
 const startBtn = document.getElementById('start');
 const pauseBtn = document.getElementById('pause');
+const gameOver = document.getElementById('game-over');
 
 let playfield = [
 	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -29,8 +30,9 @@ let playfield = [
 ];
 
 let score = 0;
+let gameTimerID;
 let currentLevel = 1;
-let isPaused = false;
+let isPaused = true;
 
 let possibleLevels = {
 	1: {
@@ -245,7 +247,7 @@ function moveTetroDown() {
 		removeFullLines();
 		activeTetro = nextTetro;
 		if (hasCollisions()) {
-			alert('game over');
+			reset();
 		}
 		nextTetro = getNewTetro();
 	}
@@ -259,6 +261,35 @@ function dropTetro() {
 			break;
 		}
 	}
+}
+
+function reset() {
+	isPaused = true;
+	clearTimeout(gameTimerID);
+	playfield = [
+		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	];
+	draw();
+	gameOver.style.display = 'block';
 }
 
 document.onkeydown = function (element) {
@@ -280,36 +311,45 @@ document.onkeydown = function (element) {
 		} else if (element.keyCode === 32) {
 			dropTetro();
 		}
+		updateGameState();
+	}
+}
+
+function updateGameState() {
+	if (!isPaused) {
 		addActiveTetro();
 		draw();
 		drawNextTetro();
 	}
-};
+}
 
 pauseBtn.addEventListener('click', (e) => {
 	if (e.target.innerHTML === 'Pause') {
 		e.target.innerHTML = 'keep playing...';
+		clearTimeout(gameTimerID);
 	} else {
 		e.target.innerHTML = 'Pause';
+		gameTimerID = setTimeout(startGame, possibleLevels[currentLevel].speed);
 	}
 	isPaused = !isPaused;
+});
+
+startBtn.addEventListener('click', e => {
+	e.target.innerHTML = 'Start again';
+	isPaused = false;
+	gameTimerID = setTimeout(startGame, possibleLevels[currentLevel].speed);
+	gameOver.style.display = 'none';
 });
 
 scoreElem.innerHTML = score;
 levelElem.innerHTML = currentLevel;
 
-addActiveTetro();
 draw();
-drawNextTetro();
 
 function startGame() {
+	moveTetroDown();
 	if (!isPaused) {
-		moveTetroDown();
-		addActiveTetro();
-		draw();
-		drawNextTetro();
+		updateGameState();
+		gameTimerID = setTimeout(startGame, possibleLevels[currentLevel].speed);
 	}
-	setTimeout(startGame, possibleLevels[currentLevel].speed);
 }
-
-setTimeout(startGame, possibleLevels[currentLevel].speed);

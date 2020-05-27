@@ -1,5 +1,7 @@
-const leftMenu = document.querySelector('.left-menu');
-const hamburger = document.querySelector('.hamburger');
+const leftMenu = document.querySelector('.left-menu'),
+	hamburger = document.querySelector('.hamburger'),
+	tvShowsList = document.querySelector('.tv-shows__list'),
+	modal = document.querySelector('.modal');
 
 hamburger.addEventListener('click', () => {
 	leftMenu.classList.toggle('openMenu');
@@ -20,5 +22,14 @@ leftMenu.addEventListener('click', event => {
 		dropdown.classList.toggle('active');
 		leftMenu.classList.add('openMenu');
 		hamburger.classList.add('open');
+	}
+});
+
+tvShowsList.addEventListener('click', event => {
+	const target = event.target;
+	const card = target.closest('.tv-card');
+	if (card) {
+		document.body.style.overflow = 'hidden';
+		modal.classList.remove('hide');
 	}
 });

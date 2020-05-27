@@ -26,6 +26,7 @@ leftMenu.addEventListener('click', event => {
 });
 
 tvShowsList.addEventListener('click', event => {
+	event.preventDefault();
 	const target = event.target;
 	const card = target.closest('.tv-card');
 	if (card) {

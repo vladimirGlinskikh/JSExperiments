@@ -33,3 +33,14 @@ tvShowsList.addEventListener('click', event => {
 		modal.classList.remove('hide');
 	}
 });
+
+modal.addEventListener('click', event => {
+	console.log(event.target);
+	console.log(event.target.classList.contains('modal'));
+
+	if (event.target.closest('.cross') ||
+		event.target.classList.contains('modal')) {
+		document.body.style.overflow = '';
+		modal.classList.add('hide');
+	}
+});

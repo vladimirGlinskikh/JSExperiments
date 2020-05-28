@@ -12,7 +12,8 @@ const leftMenu = document.querySelector('.left-menu'),
 	description = document.querySelector('.description'),
 	modalLink = document.querySelector('.modal__link'),
 	searchForm = document.querySelector('.search__form'),
-	searchFormInput = document.querySelector('.search__form-input');
+	searchFormInput = document.querySelector('.search__form-input'),
+	preloader = document.querySelector('.preloader');
 
 const loading = document.createElement('div');
 loading.className = 'loading';
@@ -44,7 +45,7 @@ class DBService {
 		return this.getData(`${this.SERVER}/search/tv?api_key=${this.API_KEY}&query=${query}&language=ru-RU`);
 	}
 
-	getTvShow = id =>{
+	getTvShow = id => {
 		return this.getData(`${this.SERVER}/tv/${id}?api_key=${this.API_KEY}&language=ru-RU`);
 	}
 }
@@ -124,7 +125,7 @@ tvShowsList.addEventListener('click', event => {
 	const target = event.target;
 	const card = target.closest('.tv-card');
 	if (card) {
-		console.dir(card)
+		preloader.style.display = 'block';
 		new DBService().getTvShow(card.id)
 			.then(data => {
 				console.log(data);
@@ -145,6 +146,9 @@ tvShowsList.addEventListener('click', event => {
 			.then(() => {
 				document.body.style.overflow = 'hidden';
 				modal.classList.remove('hide');
+			})
+			.then(() => {
+				preloader.style.display = '';
 			})
 	}
 });

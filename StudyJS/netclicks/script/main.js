@@ -1,4 +1,5 @@
 const IMG_URL = 'https://image.tmdb.org/t/p/w185_and_h278_bestv2';
+const SERVER = 'https://api.themoviedb.org/3';
 const API_KEY = '689786e139d6cc62a347ff1d03a08323';
 
 const leftMenu = document.querySelector('.left-menu'),
@@ -17,7 +18,7 @@ const loading = document.createElement('div');
 loading.className = 'loading';
 
 
-const DBService = class {
+class DBService {
 	getData = async (url) => {
 		const res = await fetch(url);
 		if (res.ok) {
@@ -33,7 +34,12 @@ const DBService = class {
 	getTestCard = () => {
 		return this.getData('card.json');
 	}
+	getSearchResult = query => {
+		return this.getData(`${SERVER}/search/tv?api_key=${API_KEY}&query=${query}&language=en-US`);
+	}
 }
+
+console.log(new DBService().getSearchResult('Папа'));
 
 const renderCard = response => {
 	console.log(response);
@@ -118,8 +124,10 @@ tvShowsList.addEventListener('click', event => {
 				description
 				modalLink
 			})
-		document.body.style.overflow = 'hidden';
-		modal.classList.remove('hide');
+			.then(() => {
+				document.body.style.overflow = 'hidden';
+				modal.classList.remove('hide');
+			})
 	}
 });
 

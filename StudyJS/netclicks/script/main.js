@@ -106,7 +106,14 @@ tvShowsList.addEventListener('click', event => {
 				console.log(data);
 				tvCardImg.src = IMG_URL + data.poster_path;
 				modalTitle.textContent = data.name;
-				genresList.innerHTML = data.genres.reduce((acc, item) => `${acc}<li>${item.name}</li>`);
+				// genresList.innerHTML = data.genres.reduce((acc, item) => `${acc}<li>${item.name}</li>`);
+				genresList.textContent = '';
+				// for (const item of data.genres){
+				// 	genresList.innerHTML += `<li>${item.name}</li>`;
+				// }
+				data.genres.forEach(item => {
+					genresList.innerHTML += `<li>${item.name}</li>`;
+				})
 				rating
 				description
 				modalLink

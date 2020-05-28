@@ -4,7 +4,12 @@ const API_KEY = '689786e139d6cc62a347ff1d03a08323';
 const leftMenu = document.querySelector('.left-menu'),
 	hamburger = document.querySelector('.hamburger'),
 	tvShowsList = document.querySelector('.tv-shows__list'),
-	modal = document.querySelector('.modal');
+	modal = document.querySelector('.modal'),
+	tvShows = document.querySelector('.tv-shows');
+
+const loading = document.createElement('div');
+loading.className = 'loading';
+
 
 const DBService = class {
 	getData = async (url) => {
@@ -46,11 +51,15 @@ const renderCard = response => {
 				<h4 class="tv-card__head">${title}</h4>
 		   </a>
 		`;
+		loading.remove();
 		tvShowsList.append(card);
 	});
 }
 
-new DBService().getTestData().then(renderCard);
+{
+	tvShows.append(loading);
+	new DBService().getTestData().then(renderCard);
+}
 
 hamburger.addEventListener('click', () => {
 	leftMenu.classList.toggle('openMenu');

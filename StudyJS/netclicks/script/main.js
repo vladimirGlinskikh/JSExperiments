@@ -81,9 +81,11 @@ const renderCard = response => {
 
 searchForm.addEventListener('submit', event => {
 	event.preventDefault();
-	const value = searchFormInput.value;
-	tvShows.append(loading);
-	new DBService().getSearchResult(value).then(renderCard);
+	const value = searchFormInput.value.trim();
+	if (value){
+		tvShows.append(loading);
+		new DBService().getSearchResult(value).then(renderCard);
+	}
 	searchFormInput.value = '';
 });
 

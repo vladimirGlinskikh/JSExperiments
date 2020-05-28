@@ -13,7 +13,8 @@ const leftMenu = document.querySelector('.left-menu'),
 	modalLink = document.querySelector('.modal__link'),
 	searchForm = document.querySelector('.search__form'),
 	searchFormInput = document.querySelector('.search__form-input'),
-	preloader = document.querySelector('.preloader');
+	preloader = document.querySelector('.preloader'),
+	dropdown = document.querySelectorAll('.dropdown');
 
 const loading = document.createElement('div');
 loading.className = 'loading';
@@ -97,15 +98,23 @@ searchForm.addEventListener('submit', event => {
 	searchFormInput.value = '';
 });
 
+const closeDropDown = () => {
+	dropdown.forEach(item => {
+		item.classList.remove('active');
+	})
+}
+
 hamburger.addEventListener('click', () => {
 	leftMenu.classList.toggle('openMenu');
 	hamburger.classList.toggle('open');
+	closeDropDown();
 });
 
 document.addEventListener('click', event => {
 	if (!event.target.closest('.left-menu')) {
 		leftMenu.classList.remove('openMenu');
 		hamburger.classList.remove('open');
+		closeDropDown();
 	}
 });
 

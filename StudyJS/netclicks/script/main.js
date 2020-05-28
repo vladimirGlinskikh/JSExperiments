@@ -5,7 +5,13 @@ const leftMenu = document.querySelector('.left-menu'),
 	hamburger = document.querySelector('.hamburger'),
 	tvShowsList = document.querySelector('.tv-shows__list'),
 	modal = document.querySelector('.modal'),
-	tvShows = document.querySelector('.tv-shows');
+	tvShows = document.querySelector('.tv-shows'),
+	tvCardImg = document.querySelector('.tv-card__img'),
+	modalTitle = document.querySelector('.modal__title'),
+	genresList = document.querySelector('.genres-list'),
+	rating = document.querySelector('.rating'),
+	description = document.querySelector('.description'),
+	modalLink = document.querySelector('.modal__link');
 
 const loading = document.createElement('div');
 loading.className = 'loading';
@@ -21,19 +27,26 @@ const DBService = class {
 		}
 	}
 	getTestData = () => {
-		return this.getData('test.json')
+		return this.getData('test.json');
+	}
+
+	getTestCard = () => {
+		return this.getData('card.json');
 	}
 }
 
 const renderCard = response => {
+	console.log(response);
 	tvShowsList.textContent = '';
 
-	response.results.forEach(({
-								  backdrop_path: backdrop,
-								  name: title,
-								  poster_path: poster,
-								  vote_average: vote
-							  }) => {
+	response.results.forEach(item => {
+
+		const {
+			backdrop_path: backdrop,
+			name: title,
+			poster_path: poster,
+			vote_average: vote
+		} = item;
 
 		const posterIMG = poster ? IMG_URL + poster : 'img/no-poster.jpg';
 		const backdropIMG = backdrop ? IMG_URL + backdrop : '';
@@ -54,7 +67,7 @@ const renderCard = response => {
 		loading.remove();
 		tvShowsList.append(card);
 	});
-}
+};
 
 {
 	tvShows.append(loading);
@@ -88,14 +101,22 @@ tvShowsList.addEventListener('click', event => {
 	const target = event.target;
 	const card = target.closest('.tv-card');
 	if (card) {
+		new DBService().getTestCard()
+			.then(data => {
+				console.log(data);
+				tvCardImg.src = IMG_URL + data.poster_path;
+				modalTitle.textContent = data.name;
+				genresList.innerHTML = data.genres.reduce((acc, item) => `${acc}<li>${item.name}</li>`);
+				rating
+				description
+				modalLink
+			})
 		document.body.style.overflow = 'hidden';
 		modal.classList.remove('hide');
 	}
 });
 
 modal.addEventListener('click', event => {
-	console.log(event.target);
-	console.log(event.target.classList.contains('modal'));
 
 	if (event.target.closest('.cross') ||
 		event.target.classList.contains('modal')) {
@@ -110,7 +131,7 @@ const changeImage = event => {
 	if (card) {
 		const img = card.querySelector('.tv-card__img');
 		if (img.dataset.backdrop) {
-			[img.src, img.dataset.backdrop] = [img.dataset.backdrop, img.src]
+			[img.src, img.dataset.backdrop] = [img.dataset.backdrop, img.src];
 		}
 	}
 };

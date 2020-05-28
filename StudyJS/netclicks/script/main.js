@@ -1,6 +1,4 @@
 const IMG_URL = 'https://image.tmdb.org/t/p/w185_and_h278_bestv2';
-const SERVER = 'https://api.themoviedb.org/3';
-const API_KEY = '689786e139d6cc62a347ff1d03a08323';
 
 const leftMenu = document.querySelector('.left-menu'),
 	hamburger = document.querySelector('.hamburger'),
@@ -12,13 +10,20 @@ const leftMenu = document.querySelector('.left-menu'),
 	genresList = document.querySelector('.genres-list'),
 	rating = document.querySelector('.rating'),
 	description = document.querySelector('.description'),
-	modalLink = document.querySelector('.modal__link');
+	modalLink = document.querySelector('.modal__link'),
+	searchForm = document.querySelector('.search__form'),
+	searchFormInput = document.querySelector('.search__form-input');
 
 const loading = document.createElement('div');
 loading.className = 'loading';
 
 
 class DBService {
+	constructor() {
+		this.SERVER = 'https://api.themoviedb.org/3';
+		this.API_KEY = '689786e139d6cc62a347ff1d03a08323';
+	}
+
 	getData = async (url) => {
 		const res = await fetch(url);
 		if (res.ok) {
@@ -35,11 +40,10 @@ class DBService {
 		return this.getData('card.json');
 	}
 	getSearchResult = query => {
-		return this.getData(`${SERVER}/search/tv?api_key=${API_KEY}&query=${query}&language=en-US`);
+		return this.getData(`${this.SERVER}/search/tv?api_key=${this.API_KEY}&query=${query}&language=en-US`);
 	}
 }
 
-console.log(new DBService().getSearchResult('Папа'));
 
 const renderCard = response => {
 	console.log(response);
@@ -75,10 +79,13 @@ const renderCard = response => {
 	});
 };
 
-{
+searchForm.addEventListener('submit', event => {
+	event.preventDefault();
+	const value = searchFormInput.value;
 	tvShows.append(loading);
-	new DBService().getTestData().then(renderCard);
-}
+	new DBService().getSearchResult(value).then(renderCard);
+	searchFormInput.value = '';
+});
 
 hamburger.addEventListener('click', () => {
 	leftMenu.classList.toggle('openMenu');

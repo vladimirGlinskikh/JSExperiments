@@ -14,7 +14,8 @@ const leftMenu = document.querySelector('.left-menu'),
 	searchForm = document.querySelector('.search__form'),
 	searchFormInput = document.querySelector('.search__form-input'),
 	preloader = document.querySelector('.preloader'),
-	dropdown = document.querySelectorAll('.dropdown');
+	dropdown = document.querySelectorAll('.dropdown'),
+	tvShowsHead = document.querySelector('.tv-shows__head');
 
 const loading = document.createElement('div');
 loading.className = 'loading';
@@ -53,8 +54,17 @@ class DBService {
 
 
 const renderCard = response => {
-	console.log(response);
 	tvShowsList.textContent = '';
+	console.log(response)
+	if (!response.total_results) {
+		loading.remove();
+		tvShowsHead.textContent = 'К сожалению, по Вашему запросу ничего не найдено...';
+		tvShowsHead.style.color = 'red';
+		return;
+	}
+
+	tvShowsHead.textContent = 'Результат поиска:';
+	tvShowsHead.style.color = 'green';
 
 	response.results.forEach(item => {
 
@@ -156,7 +166,7 @@ tvShowsList.addEventListener('click', event => {
 				document.body.style.overflow = 'hidden';
 				modal.classList.remove('hide');
 			})
-			.then(() => {
+			.finally(() => {
 				preloader.style.display = '';
 			})
 	}

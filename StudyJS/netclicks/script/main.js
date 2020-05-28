@@ -39,8 +39,13 @@ class DBService {
 	getTestCard = () => {
 		return this.getData('card.json');
 	}
+
 	getSearchResult = query => {
-		return this.getData(`${this.SERVER}/search/tv?api_key=${this.API_KEY}&query=${query}&language=en-US`);
+		return this.getData(`${this.SERVER}/search/tv?api_key=${this.API_KEY}&query=${query}&language=ru-RU`);
+	}
+
+	getTvShow = id =>{
+		return this.getData(`${this.SERVER}/tv/${id}?api_key=${this.API_KEY}&language=ru-RU`);
 	}
 }
 
@@ -55,7 +60,8 @@ const renderCard = response => {
 			backdrop_path: backdrop,
 			name: title,
 			poster_path: poster,
-			vote_average: vote
+			vote_average: vote,
+			id
 		} = item;
 
 		const posterIMG = poster ? IMG_URL + poster : 'img/no-poster.jpg';
@@ -63,9 +69,10 @@ const renderCard = response => {
 		const voteElem = vote ? `<span class="tv-card__vote">${vote}</span>` : '';
 
 		const card = document.createElement('li');
+		card.idTV = id;
 		card.className = 'tv-shows__item';
 		card.innerHTML = `
-		   <a href="#" class="tv-card">
+		   <a href="#" id="${id}" class="tv-card">
 				${voteElem}
 				<img class="tv-card__img"
 					src="${posterIMG}"
@@ -82,7 +89,7 @@ const renderCard = response => {
 searchForm.addEventListener('submit', event => {
 	event.preventDefault();
 	const value = searchFormInput.value.trim();
-	if (value){
+	if (value) {
 		tvShows.append(loading);
 		new DBService().getSearchResult(value).then(renderCard);
 	}
@@ -116,7 +123,8 @@ tvShowsList.addEventListener('click', event => {
 	const target = event.target;
 	const card = target.closest('.tv-card');
 	if (card) {
-		new DBService().getTestCard()
+		console.dir(card)
+		new DBService().getTvShow(card.id)
 			.then(data => {
 				console.log(data);
 				tvCardImg.src = IMG_URL + data.poster_path;
@@ -129,9 +137,9 @@ tvShowsList.addEventListener('click', event => {
 				data.genres.forEach(item => {
 					genresList.innerHTML += `<li>${item.name}</li>`;
 				})
-				rating
-				description
-				modalLink
+				rating.textContent = data.vote_average;
+				description.textContent = data.overview;
+				modalLink.href = data.homepage;
 			})
 			.then(() => {
 				document.body.style.overflow = 'hidden';

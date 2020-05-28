@@ -31,7 +31,7 @@ const renderCard = response => {
 							  }) => {
 
 		const posterIMG = poster ? IMG_URL + poster : 'img/no-poster.jpg';
-		const backdropIMG = '';
+		const backdropIMG = backdrop ? IMG_URL + backdrop : '';
 		const voteElem = '';
 
 		const card = document.createElement('li');

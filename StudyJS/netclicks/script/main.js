@@ -15,7 +15,9 @@ const leftMenu = document.querySelector('.left-menu'),
 	searchFormInput = document.querySelector('.search__form-input'),
 	preloader = document.querySelector('.preloader'),
 	dropdown = document.querySelectorAll('.dropdown'),
-	tvShowsHead = document.querySelector('.tv-shows__head');
+	tvShowsHead = document.querySelector('.tv-shows__head'),
+	posterWrapper = document.querySelector('.poster__wrapper'),
+	modalContent = document.querySelector('.modal__content');
 
 const loading = document.createElement('div');
 loading.className = 'loading';
@@ -146,21 +148,31 @@ tvShowsList.addEventListener('click', event => {
 	if (card) {
 		preloader.style.display = 'block';
 		new DBService().getTvShow(card.id)
-			.then(data => {
-				console.log(data);
-				tvCardImg.src = IMG_URL + data.poster_path;
-				modalTitle.textContent = data.name;
-				// genresList.innerHTML = data.genres.reduce((acc, item) => `${acc}<li>${item.name}</li>`);
+			.then(({
+					   poster_path: posterPath,
+					   name: title,
+					   genres,
+					   vote_average: voteAverage,
+					   overview,
+					   homepage
+				   }) => {
+				if (posterPath) {
+					tvCardImg.src = IMG_URL + posterPath;
+					tvCardImg.alt = title;
+					posterWrapper.style.display = '';
+					modalContent.style.paddingLeft = '';
+				} else {
+					posterWrapper.style.display = 'none';
+					modalContent.style.paddingLeft = '25px';
+				}
+				modalTitle.textContent = title;
 				genresList.textContent = '';
-				// for (const item of data.genres){
-				// 	genresList.innerHTML += `<li>${item.name}</li>`;
-				// }
-				data.genres.forEach(item => {
+				genres.forEach(item => {
 					genresList.innerHTML += `<li>${item.name}</li>`;
-				})
-				rating.textContent = data.vote_average;
-				description.textContent = data.overview;
-				modalLink.href = data.homepage;
+				});
+				rating.textContent = voteAverage;
+				description.textContent = overview;
+				modalLink.href = homepage;
 			})
 			.then(() => {
 				document.body.style.overflow = 'hidden';

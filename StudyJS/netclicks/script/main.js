@@ -52,10 +52,17 @@ class DBService {
 	getTvShow = id => {
 		return this.getData(`${this.SERVER}/tv/${id}?api_key=${this.API_KEY}&language=ru-RU`);
 	}
+
+	getTopRated = () => this.getData(`${this.SERVER}/tv/top_rated?api_key=${this.API_KEY}&language=ru-RU`);
+	getPopular = () => this.getData(`${this.SERVER}/tv/popular?api_key=${this.API_KEY}&language=ru-RU`);
+	getToday = () => this.getData(`${this.SERVER}/tv/airing_today?api_key=${this.API_KEY}&language=ru-RU`);
+	getWeek = () => this.getData(`${this.SERVER}/tv/on_the_air?api_key=${this.API_KEY}&language=ru-RU`);
 }
 
+const dbService = new DBService();
 
-const renderCard = response => {
+const renderCard = (response, target) => {
+	debugger;
 	tvShowsList.textContent = '';
 	console.log(response)
 	if (!response.total_results) {
@@ -65,11 +72,10 @@ const renderCard = response => {
 		return;
 	}
 
-	tvShowsHead.textContent = 'Результат поиска:';
+	tvShowsHead.textContent = target ? target.textContent : 'Результат поиска:';
 	tvShowsHead.style.color = 'green';
 
 	response.results.forEach(item => {
-
 		const {
 			backdrop_path: backdrop,
 			name: title,
@@ -105,7 +111,7 @@ searchForm.addEventListener('submit', event => {
 	const value = searchFormInput.value.trim();
 	if (value) {
 		tvShows.append(loading);
-		new DBService().getSearchResult(value).then(renderCard);
+		dbService.getSearchResult(value).then(renderCard);
 	}
 	searchFormInput.value = '';
 });
@@ -139,6 +145,30 @@ leftMenu.addEventListener('click', event => {
 		leftMenu.classList.add('openMenu');
 		hamburger.classList.add('open');
 	}
+	if (target.closest('#top-rated')) {
+		tvShows.append(loading);
+		dbService.getTopRated().then((response) => renderCard(response, target));
+	}
+
+	if (target.closest('#popular')) {
+		tvShows.append(loading);
+		dbService.getPopular().then((response) => renderCard(response, target));
+	}
+
+	if (target.closest('#today')) {
+		tvShows.append(loading);
+		dbService.getToday().then((response) => renderCard(response, target));
+	}
+
+	if (target.closest('#week')) {
+		tvShows.append(loading);
+		dbService.getWeek().then((response) => renderCard(response, target));
+	}
+
+	if (target.closest('#search')){
+		tvShowsList.textContent = '';
+		tvShowsHead.textContent = '';
+	}
 });
 
 tvShowsList.addEventListener('click', event => {
@@ -147,7 +177,7 @@ tvShowsList.addEventListener('click', event => {
 	const card = target.closest('.tv-card');
 	if (card) {
 		preloader.style.display = 'block';
-		new DBService().getTvShow(card.id)
+		dbService.getTvShow(card.id)
 			.then(({
 					   poster_path: posterPath,
 					   name: title,

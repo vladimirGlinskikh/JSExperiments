@@ -17,7 +17,8 @@ const leftMenu = document.querySelector('.left-menu'),
 	dropdown = document.querySelectorAll('.dropdown'),
 	tvShowsHead = document.querySelector('.tv-shows__head'),
 	posterWrapper = document.querySelector('.poster__wrapper'),
-	modalContent = document.querySelector('.modal__content');
+	modalContent = document.querySelector('.modal__content'),
+	pagination = document.querySelector('.pagination');
 
 const loading = document.createElement('div');
 loading.className = 'loading';
@@ -46,7 +47,12 @@ class DBService {
 	}
 
 	getSearchResult = query => {
-		return this.getData(`${this.SERVER}/search/tv?api_key=${this.API_KEY}&query=${query}&language=ru-RU`);
+		this.temp = `${this.SERVER}/search/tv?api_key=${this.API_KEY}&query=${query}&language=ru-RU`;
+		return this.getData(this.temp);
+	}
+
+	getNextPage = page => {
+		return this.getData(this.temp + '&page=' + page);
 	}
 
 	getTvShow = id => {
@@ -62,7 +68,6 @@ class DBService {
 const dbService = new DBService();
 
 const renderCard = (response, target) => {
-	debugger;
 	tvShowsList.textContent = '';
 	console.log(response)
 	if (!response.total_results) {
@@ -104,6 +109,12 @@ const renderCard = (response, target) => {
 		loading.remove();
 		tvShowsList.append(card);
 	});
+	pagination.textContent = '';
+	if (!target && response.total_pages > 1) {
+		for (let i = 1; i <= response.total_pages; i++) {
+			pagination.innerHTML += `<li><a href="#" class="pages">${i}</a></li>`
+		}
+	}
 };
 
 searchForm.addEventListener('submit', event => {
@@ -165,7 +176,7 @@ leftMenu.addEventListener('click', event => {
 		dbService.getWeek().then((response) => renderCard(response, target));
 	}
 
-	if (target.closest('#search')){
+	if (target.closest('#search')) {
 		tvShowsList.textContent = '';
 		tvShowsHead.textContent = '';
 	}
@@ -236,3 +247,12 @@ const changeImage = event => {
 
 tvShowsList.addEventListener('mouseover', changeImage);
 tvShowsList.addEventListener('mouseout', changeImage);
+
+pagination.addEventListener('click', event => {
+	event.preventDefault();
+	const target = event.target;
+	if (target.classList.contains('pages')) {
+		tvShows.append(loading);
+		dbService.getNextPage(target.textContent).then(renderCard);
+	}
+});

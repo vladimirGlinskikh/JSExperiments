@@ -543,17 +543,17 @@ main {
 .modal__content {
     border: 32px solid #00addc;
     position: relative;
-	min-width: 600px;
+    min-width: 600px;
     max-width: 800px;
     min-height: 400px;
-	max-height: 550px;
+    max-height: 550px;
     padding: 35px 50px 35px 150px;
     background-color: #fff;
     font-size: 14px;
     line-height: 1.2;
     font-weight: 400;
     color: #030303;
-	margin: 0 200px;
+    margin: 0 200px;
 }
 
 .modal__content h2 {
@@ -567,8 +567,8 @@ main {
 }
 
 .modal__description {
-	overflow-y: auto;
-	max-height: 400px;
+    overflow-y: auto;
+    max-height: 400px;
 }
 
 .modal__description section {
@@ -687,10 +687,10 @@ main {
         padding: 0 60px;
     }
 
-	.cross {
-		top: 0;
-		right: 0;
-	}
+    .cross {
+        top: 0;
+        right: 0;
+    }
 }
 
 @media (max-width: 794px) {
@@ -708,26 +708,26 @@ main {
         justify-content: space-around;
     }
 
-	.image__content {
-		position: static;
-		margin: 0 auto;
-	}
+    .image__content {
+        position: static;
+        margin: 0 auto;
+    }
 
-	.modal__content {
-		overflow-y: auto;
-		max-height: 400px;
-		padding: 30px;
-		border-width: 16px;
-	}
+    .modal__content {
+        overflow-y: auto;
+        max-height: 400px;
+        padding: 30px;
+        border-width: 16px;
+    }
 
-	.modal__description {
-		overflow-y: visible;
-		max-height: none;
-	}
+    .modal__description {
+        overflow-y: visible;
+        max-height: none;
+    }
 
-	.modal__content h2 {
-		margin-top: 15px;
-	}
+    .modal__content h2 {
+        margin-top: 15px;
+    }
 }
 
 @media (max-width: 655px) {
@@ -740,10 +740,10 @@ main {
         margin: 0 auto;
     }
 
-	.modal__content {
-		min-width: 320px;
-		width: 100%;
-	}
+    .modal__content {
+        min-width: 320px;
+        width: 100%;
+    }
 
 
 }
@@ -1194,4 +1194,18 @@ div:after {
         transform: translate(0, 0) scale(1) rotate(360deg);
         background-color: #00838f;
     }
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin: 30px 0;
+}
+
+.pagination li {
+    padding: 0 5px;
+}
+
+.pagination li a {
+    padding: 0 5px;
 }

@@ -522,3 +522,17 @@ body {
     background-size: cover;
 }
 
+.concuria {
+    background-image: url(../img/concuria.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+.ant {
+    background-image: url(../img/ant.jpg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+

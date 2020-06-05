@@ -9,6 +9,11 @@
 <body>
 <header class="header">
 	<div class="header-block">
+		<button class="m-menu">
+			<span class="line"></span>
+			<span class="line"></span>
+			<span class="line"></span>
+		</button>
 		<div class="search">
 			<input type="text" class="search-input" placeholder="Search">
 		</div>
@@ -288,7 +293,35 @@
 					<span class="post-button-text">Share</span>
 				</button>
 			</div>
-			<!-- /.post-footer -->
+		</div>
+		<div class="post">
+			<div class="post-header">
+				<div class="user">
+					<img class="user-avatar" src="img/figma-avatar.jpg" alt="avatar"/>
+					<div class="post-info">
+						<a href="#" class="post-author">Figma</a>
+						<div class="post-info-time">
+							<span class="post-time">6 hrs</span>
+							<svg width="14" height="14" class="setting-icon">
+								<use xlink:href="img/icons.svg#setting"></use>
+							</svg>
+						</div>
+					</div>
+				</div>
+				<button class="post-header-button">
+					<svg width="24" height="24" class="post-button-icon">
+						<use xlink:href="img/icons.svg#dots"></use>
+					</svg>
+				</button>
+			</div>
+			<div class="post-content">
+				<p class="post-text">
+					📙 Want to implement type in your design system in Figma?
+					This guide covers everything you should consider,
+					from choosing the right typography scale to naming and
+					organizing your text styles.
+				</p>
+			</div>
 		</div>
 		<!-- /.post -->
 	</div>

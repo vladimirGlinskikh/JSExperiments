@@ -3,6 +3,7 @@ $(document).ready(function () {
 		loop: false,
 		margin: 10,
 		nav: true,
+		navClass: ['slider__nav--left', 'slider__nav--right'],
 		responsive: {
 			0: {
 				items: 1
@@ -13,7 +14,7 @@ $(document).ready(function () {
 			900: {
 				items: 3
 			},
-			1200:{
+			1200: {
 				items: 4
 			}
 		}

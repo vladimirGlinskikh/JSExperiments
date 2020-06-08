@@ -208,3 +208,36 @@ body {
 .slider__nav--right span {
     display: none;
 }
+
+@media (max-width: 600px) {
+    .hero__subtitle {
+        font-size: 24px;
+    }
+
+    .hero__title {
+        font-size: 36px;
+        line-height: 120%;
+    }
+
+    .hero__description {
+        font-size: 16px;
+    }
+
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .header__logo{
+        margin-bottom: 30px;
+    }
+
+    .nav{
+        display: flex;
+        flex-direction: column;
+    }
+
+    .nav__link{
+        margin-bottom: 10px;
+    }
+}

@@ -264,3 +264,61 @@ body {
 .en-name {
     color: #a5a5a5;
 }
+
+.news {
+    background-color: #f3f3f3;
+    padding-top: 70px;
+    padding-bottom: 100px;
+}
+
+.section-news-title {
+    font-weight: 900;
+    color: #000000;
+    margin-bottom: 65px;
+}
+
+.news-cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.news-card {
+    flex-basis: 23%;
+    background-color: #FFFFFF;
+    padding: 30px;
+    border-radius: 5px;
+}
+
+.news-date {
+    font-size: 14px;
+    line-height: 16px;
+}
+
+.news-title {
+    font-weight: 900;
+    font-size: 14px;
+    line-height: 16px;
+    color: #000000;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

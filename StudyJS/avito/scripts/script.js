@@ -17,24 +17,27 @@ const closeModal = function (event) {
 	}
 };
 
+const closeModalEscape = event => {
+	if (event.code === 'Escape') {
+		modalAdd.classList.add('hide');
+		modalItem.classList.add('hide');
+		document.removeEventListener('keydown', closeModalEscape);
+	}
+};
+
 addAd.addEventListener('click', () => {
 	modalAdd.classList.remove('hide');
 	modalBtnSubmit.disabled = true;
+	document.addEventListener('keydown', closeModalEscape);
 });
 
-modalAdd.addEventListener('click', closeModal);
-modalItem.addEventListener('click', closeModal);
+modalAdd.addEventListener('click', closeModalEscape);
+modalItem.addEventListener('click', closeModalEscape);
 
 catalog.addEventListener('click', event => {
 	const target = event.target;
 	if (target.closest('.card')) {
 		modalItem.classList.remove('hide');
-	}
-});
-
-document.addEventListener('keydown', event => {
-	if (event.code === 'Escape') {
-		modalAdd.classList.add('hide');
-		modalItem.classList.add('hide');
+		document.addEventListener('keydown', closeModalEscape);
 	}
 });

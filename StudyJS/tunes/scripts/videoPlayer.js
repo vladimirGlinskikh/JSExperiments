@@ -16,12 +16,15 @@ export const videoPlayerInit = () => {
 		}
 	}
 
-	videoPlayer.addEventListener('click', () => {
+	const togglePlay = () => {
 		if (videoPlayer.paused) {
 			videoPlayer.play();
 		} else {
 			videoPlayer.pause();
 		}
 		toggleIcon();
-	});
+	};
+
+	videoPlayer.addEventListener('click', togglePlay);
+	videoButtonPlay.addEventListener('click', togglePlay);
 };

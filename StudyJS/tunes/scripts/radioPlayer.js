@@ -7,4 +7,13 @@ export const radioPlayerInit = () => {
 		radioStop = document.querySelector('.radio-stop');
 
 	const audio = new Audio();
+	audio.type = 'audio/aac';
+
+	radioStop.disabled = true;
+
+	radioNavigation.addEventListener('change', event => {
+		const target = event.target;
+		audio.src = target.dataset.radioStantion;
+		audio.play();
+	});
 };

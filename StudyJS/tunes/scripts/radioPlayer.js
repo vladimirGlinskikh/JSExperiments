@@ -36,6 +36,9 @@ export const radioPlayerInit = () => {
 		const title = parent.querySelector('.radio-name').textContent;
 		radioHeaderBig.textContent = title;
 
+		const urlImg = parent.querySelector('.radio-img').src;
+		radioCoverImg.src = urlImg;
+
 		radioStop.disabled = false;
 		audio.src = target.dataset.radioStantion;
 		audio.play();

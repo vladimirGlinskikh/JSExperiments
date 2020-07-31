@@ -53,4 +53,9 @@ export const radioPlayerInit = () => {
 		}
 		changeIconPlay();
 	});
+
+	radioPlayerInit.stop = () => {
+		audio.pause();
+		changeIconPlay();
+	};
 };

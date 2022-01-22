@@ -1,7 +1,24 @@
-function printMyName(){
-    console.log('Finish')
+// function printMyName(){
+//     console.log('Finish')
+// }
+//
+// console.log('Start')
+//
+// setTimeout(printMyName, 5_000)
+
+const buttonInfo = {
+    text: 'yes'
 }
 
-console.log('Start')
+const buttonStyle = {
+    color: 'yellow',
+    width: 200,
+    height: 300
+}
 
-setTimeout(printMyName, 5_000)
+const button = {
+    ...buttonInfo,
+    ...buttonStyle
+}
+
+console.table(button)
